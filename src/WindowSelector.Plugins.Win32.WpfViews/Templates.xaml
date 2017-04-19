@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewmodels="clr-namespace:WindowSelector.Plugins.Win32.ViewModels;assembly=WindowSelector.Plugins.Win32"
+                    xmlns:controls="clr-namespace:WindowSelector.Controls;assembly=WindowSelector.Plugins.Win32.WpfViews">
+
+    <DataTemplate DataType="{x:Type viewmodels:NativeWindowResult}">
+        <controls:Thumbnail Source="{Binding Value.hWnd}"></controls:Thumbnail>
+    </DataTemplate>
+    
+    
+
+</ResourceDictionary>

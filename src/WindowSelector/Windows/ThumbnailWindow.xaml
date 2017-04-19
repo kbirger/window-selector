@@ -1,0 +1,68 @@
+﻿<Window x:Class="WindowSelector.Windows.ThumbnailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:windowSelector="clr-namespace:WindowSelector"
+        xmlns:converters="clr-namespace:WindowSelector.Converters"
+        xmlns:controls="clr-namespace:WindowSelector.Controls"
+        xmlns:common="clr-namespace:WindowSelector.Common;assembly=WindowSelector.Common"
+        xmlns:viewModels="clr-namespace:WindowSelector.Common.ViewModels;assembly=WindowSelector.Common"
+        xmlns:windows="clr-namespace:WindowSelector.Windows"
+        Title="ThumbnailWindow" 
+        Height="300" 
+        Width="300" 
+        
+        MinWidth="300"
+        MinHeight="300"
+        ShowActivated="False"
+        AllowsTransparency="True" ShowInTaskbar="False" WindowStyle="None" SizeToContent="WidthAndHeight" Background="Transparent"  Topmost="True"
+        >
+    <Window.Resources>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <converters:WindowResultThumbnailConverter x:Key="WindowResultThumbnailConverter" />
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+        <windows:ResultDataTemplateSelector x:Key="ResultDataTemplateSelector"></windows:ResultDataTemplateSelector>
+    </Window.Resources>
+    <Grid Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" >
+        <Border CornerRadius="10" Background="#aa000000" Margin="10">
+            <Border.Effect>
+                <BlurEffect Radius="5"></BlurEffect>
+            </Border.Effect>
+        </Border>
+        <Border CornerRadius="10" Background="Transparent" Margin="15">
+
+            <Grid Margin="5" Background="#00000000">
+                <Grid.Effect>
+                    <DropShadowEffect Opacity="12" BlurRadius="50" ShadowDepth="1" Color="Black"></DropShadowEffect>
+                </Grid.Effect>
+                <ContentControl Name="ThumbContent" Content="{Binding}" DataContext="{Binding}" DataContextChanged="ThumbContent_OnDataContextChanged">
+                </ContentControl>
+                <!--<ContentPresenter Content="{Binding }" ContentTemplateSelector="{StaticResource ResultDataTemplateSelector}">
+                    <ContentPresenter.Resources>
+                        <DataTemplate x:Key="normalTemplate">
+                            <TextBlock>Normal</TextBlock>
+                        </DataTemplate>
+                        <DataTemplate x:Key="nativeTemplate">
+                            <TextBlock>Native</TextBlock>
+                        </DataTemplate>
+                    </ContentPresenter.Resources>
+                </ContentPresenter>-->
+                <!--<ContentControl Content="{Binding }" ContentTemplateSelector="{StaticResource ResultDataTemplateSelector}">
+                    <ContentControl.Resources>
+                        <Style TargetType="TextBlock" x:Key="{x:Type TextBlock}">
+                            <Setter Property="Foreground" Value="Red"></Setter>
+                            <Setter Property="FontSize" Value="20"></Setter>
+                        </Style>
+                        <DataTemplate x:Key="NativeWindowTemplate">
+                            <TextBlock Text="{Binding DisplayText}"></TextBlock>
+                        </DataTemplate>
+                        <DataTemplate x:Key="TabTemplate">
+                            <TextBlock Text="{Binding DisplayText}" Foreground="Red"></TextBlock>
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>-->
+
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

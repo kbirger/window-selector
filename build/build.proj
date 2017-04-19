@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <UsingTask TaskName="MSBuild.Community.Tasks.NUnit3" AssemblyFile="$(MSBuildProjectDirectory)\..\packages\MSBuildTasks.1.5.0.196\tools\MSBuild.Community.Tasks.dll" />
+    <UsingTask AssemblyFile="$(MSBuildProjectDirectory)\..\packages\OpenCover.4.6.519\MSBuild\OpenCover.MSBuild.dll" TaskName="OpenCover.MSBuild.OpenCover" />
+    <PropertyGroup>        
+        <ProjectRootPath>$(MSBuildProjectDirectory)\..</ProjectRootPath>
+        <PackagesPath>$(ProjectRootPath)\packages</PackagesPath>
+        <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">$(ProjectRootPath)\</SolutionDir>
+        <NuGetDirPath>$(ProjectRootPath)\.nuget</NuGetDirPath>
+        <NuGetExePath>"$(NuGetDirPath)\nuget.exe"</NuGetExePath>
+        <NuGetConfigPath>$(NuGetDirPath)\nuget.config</NuGetConfigPath>
+        <DistDirPath>$(ProjectRootPath)\dist</DistDirPath>
+        <UnitTestsPath>$(SolutionDir)tests</UnitTestsPath>
+        <SrcPath>$(SolutionDir)src</SrcPath>
+
+        <CoverageResultsPath>$(UnitTestsPath)\CoverageResults\</CoverageResultsPath>
+        <OpenCoverToolsPath>$(SolutionDir)packages\OpenCover.4.6.519\tools</OpenCoverToolsPath>
+        <ReportGeneratorExePath>$(PackagesPath)\ReportGenerator.2.5.1\tools\ReportGenerator.exe</ReportGeneratorExePath>
+
+    </PropertyGroup>
+
+    <Import Project="$(NuGetDirPath)\NuGet.targets" />
+
+    <Target Name="Compile">
+        <MSBuild Projects="$(ProjectRootPath)\WindowSelector.sln" />
+    </Target>
+
+
+    <Target Name="Build" DependsOnTargets="$(BuildDependsOn);RestoreBuildPackages">
+        <CallTarget Targets="Compile" />
+        <CallTarget Targets="UnitTest" />
+        <CallTarget Targets="UnitTestCoverage" />
+    </Target>
+
+
+    <Target Name="UnitTest">
+        <ItemGroup>
+            <NUnitExePath Include="$(ProjectRootPath)\packages\NUnit.ConsoleRunner.3.5.0\tools\nunit3-console.exe" />
+            <TestAssemblies Include="$(UnitTestsPath)\**\bin\debug\*Test*.dll" />
+        </ItemGroup>
+        <NUnit3 Assemblies="@(TestAssemblies)"
+               ToolPath="@(NUnitExePath->'%(relativedir)')"
+               EnableShadowCopy="false"
+               Force32Bit="false"
+               Framework="net-4.5"
+               ContinueOnError="false" />
+    </Target>
+
+    <Target Name="UnitTestCoverage" DependsOnTargets="RestoreBuildPackages; UnitTestCoverageClean">
+        <CallTarget Targets="UnitTestCoverageWindowSelector" />
+        <CallTarget Targets="UnitTestCoverageReport" />
+        <Exec Command="&quot;$(CoverageResultsPath)index.htm&quot;" IgnoreExitCode="true" />
+    </Target>
+    <Target Name="UnitTestCoverageClean">
+        <ItemGroup>
+            <ResultFiles Include="$(CoverageResultsPath)**\*.*" />
+        </ItemGroup>
+        <RemoveDir Directories="$(CoverageResultsPath)" />
+        <MakeDir Directories="$(CoverageResultsPath)"/>
+        <!-- <Delete Files="@(ResultFiles)"/> -->
+        <Delete Files="$(CoverageResultsPath)results.xml;$(CoverageResultsPath)TestResult.xml"/>
+    </Target>
+    <Target Name="UnitTestCoverageReport" DependsOnTargets="RestoreBuildPackages; UnitTestCoverageClean">
+    <Exec Command='&quot;$(ReportGeneratorExePath)&quot; -reports:&quot;$(CoverageResultsPath)results.xml&quot; -targetdir:&quot;$(UnitTestsPath)\CoverageResults&quot;'/>        
+    </Target>
+    <Target Name="UnitTestCoverageWindowSelector" DependsOnTargets="UnitTestCoverageClean">
+    	<!-- <Exec Command="&quot;$(SolutionDir)coverage.bat&quot;"/> -->
+        <ItemGroup>
+            <NUnitExePath Include="$(ProjectRootPath)\packages\NUnit.ConsoleRunner.3.5.0\tools\nunit3-console.exe" />
+            <TestAssemblies Include="$(UnitTestsPath)\**\bin\debug\*Test*.dll" />
+        </ItemGroup>
+        <OpenCover
+            ReturnTargetCode="True"
+            ToolPath="$(OpenCoverToolsPath)"
+            Filter="+[WindowSelector]* -[*Test]* -[WindowSelector]*Annotations.*"
+            ExcludeByAttribute="*.ExcludeFromCodeCoverage*"
+            ToolExe="OpenCover.Console.exe"
+            Register="True"
+            ShowUnvisited="True"
+            Target="$(PackagesPath)\NUnit.ConsoleRunner.3.5.0\tools\nunit3-console.exe"
+            TargetArgs="@(TestAssemblies->'&quot;%(FullPath)&quot;', ' ') "
+            Output="$(CoverageResultsPath)results.xml" >
+            <Output TaskParameter="ExitCode" PropertyName="TestExitCode"/>
+        </OpenCover>
+    </Target>
+
+
+
+
+    <Target Name="PackInstaller" DependsOnTargets="CheckPrerequisites;CreateDistDir">
+        <PropertyGroup>
+            <InstallNuSpecPath>$(NuGetDirPath)\NaviNetDirectoryService.Install\NaviNetDirectoryService.Install.nuspec</InstallNuSpecPath>
+            <VersionArg Condition="$(Version) != ''">-version $(Version)</VersionArg>
+        </PropertyGroup>
+        <Exec Command="$(NuGetExePath) pack $(InstallNuSpecPath) -outputDirectory $(DistDirPath) $(VersionArg)" />
+    </Target>
+
+
+    <Target Name="CreateDistDir">
+        <MakeDir Directories="$(DistDirPath)" Condition="!Exists('$(DistDirPath)')" />
+    </Target>
+
+
+    <Target Name="RestoreBuildPackages" DependsOnTargets="CheckPrerequisites">
+        <Exec Command="$(NuGetExePath) restore &quot;$(SolutionDir)WindowSelector.sln&quot;" />
+    </Target>
+
+
+</Project>

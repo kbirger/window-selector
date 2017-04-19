@@ -1,0 +1,243 @@
+﻿<Window x:Class="WindowSelector.Windows.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:windowSelector="clr-namespace:WindowSelector"
+        xmlns:converters="clr-namespace:WindowSelector.Converters"
+        xmlns:commands="clr-namespace:WindowSelector.Commands"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:viewModels11="clr-namespace:WindowSelector.Common.ViewModels;assembly=WindowSelector.Common"
+        Title="MainWindow" Height="350" Width="525" Deactivated="MainWindow_OnDeactivated" 
+        WindowStyle="None" 
+        Topmost="True"
+        Background="Transparent"
+        ShowInTaskbar="False"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        BorderThickness="0"
+        KeyDown="Input_KeyPress"
+        Name="Window"
+        windowSelector:InputBindingsBehavior.TakesInputBindingPrecedence="True"
+        >
+    <Window.Resources>
+        <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+        <converters:BoolToConnectionBrushConverter x:Key="BoolToConnectionBrushConverter" TrueBrush="LimeGreen" FalseBrush="Red" />
+        <converters:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+        <commands:WhiteListItemCommand x:Key="WhiteListItemCommand"></commands:WhiteListItemCommand>
+        <commands:BlackListItemCommand x:Key="BlackListItemCommand"></commands:BlackListItemCommand>
+        <!--<InputBindingCollection x:Key="InputBindings">
+            <KeyBinding Key="Escape" Command="Close"></KeyBinding>
+            <KeyBinding Key="Down" Command="{Binding ItemDownCommand}" />
+            <KeyBinding Key="Up" Command="{Binding ItemUpCommand}" />
+            <KeyBinding Key="Enter" Command="{Binding ItemSelectCommand}">
+                <KeyBinding.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </KeyBinding.CommandParameter>
+            </KeyBinding>
+            <KeyBinding Key="Enter" Modifiers="Shift" Command="{Binding ItemSelectCommand}">
+                <KeyBinding.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </KeyBinding.CommandParameter>
+            </KeyBinding>
+            <KeyBinding Key="{Binding MinimizeKey.Key}" Modifiers="{Binding MinimizeKey.Modifiers}" Command="{Binding ItemMinimizeCommand}" />
+            <KeyBinding Key="Delete" Modifiers="Alt" Command="{Binding ItemCloseCommand}" />
+        </InputBindingCollection>-->
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Close_OnExecuted"></CommandBinding>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+            <KeyBinding Key="Escape" Command="Close"></KeyBinding>
+            <KeyBinding Key="Down" Command="{Binding ItemDownCommand}" />
+            <KeyBinding Key="Up" Command="{Binding ItemUpCommand}" />
+            <KeyBinding Key="Enter" Command="{Binding ItemSelectCommand}">
+                <KeyBinding.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </KeyBinding.CommandParameter>
+            </KeyBinding>
+            <KeyBinding Key="Enter" Modifiers="Shift" Command="{Binding ItemSelectCommand}">
+                <KeyBinding.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </KeyBinding.CommandParameter>
+            </KeyBinding>
+            <KeyBinding Key="{Binding MinimizeKey.Key}" Modifiers="{Binding MinimizeKey.Modifiers}" Command="{Binding ItemMinimizeCommand}" />
+            <KeyBinding Key="{Binding CloseKey.Key}" Modifiers="{Binding CloseKey.Modifiers}" Command="{Binding ItemCloseCommand}" />
+    </Window.InputBindings>
+    <Grid>
+        <tb:TaskbarIcon
+            x:Name="TaskbarIcon"
+            Visibility="Visible"
+            ToolTipText="Window Selector"
+            IconSource="..\windowselector2.ico"
+            TrayMouseDoubleClick="TaskbarIcon_OnTrayMouseDoubleClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Settings" Click="MenuItem_OnClick"/>
+                    <MenuItem Header="E_xit" Click="Exit_OnClick"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+        <Border CornerRadius="4" Background="#aa000000">
+            <Grid Margin="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <!--<ColumnDefinition Width="Auto"></ColumnDefinition>-->
+                </Grid.ColumnDefinitions>
+                <ListView x:Name="FoundWindows" Foreground="#ffdddddd" Background="#aa000000" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                          SelectionChanged="FoundWindows_OnSelectionChanged" ItemsSource="{Binding Path=Results}" SelectedItem="{Binding SelectedItem}" BorderThickness="2" BorderBrush="#aa444444">
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem 
+                                DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
+                                Header="{Binding Details}" FontWeight="Bold"
+                                IsEnabled="False"></MenuItem>
+                            <Separator></Separator>
+                            <MenuItem 
+                                DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
+                                IsChecked="{Binding IsWhiteListed, Mode=OneWay}" 
+                                Command="{StaticResource WhiteListItemCommand}" 
+                                CommandParameter="{Binding}"
+                                Header="Whitelist"></MenuItem>
+
+                            <MenuItem 
+                                DataContext="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}"
+                                IsChecked="{Binding IsBlackListed, Mode=OneWay}" 
+                                Command="{StaticResource BlackListItemCommand}" 
+                                CommandParameter="{Binding}"
+                                Header="Blacklist"></MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
+                    <ListView.Resources>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#ff777777"/>
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="{x:Static SystemColors.HighlightTextColor}"/>
+                        <ControlTemplate x:Key="SelectedTemplate" TargetType="ListViewItem">
+                            <Border Background="#ff777777">
+                                <ContentPresenter></ContentPresenter>
+                                <!--<GridViewRowPresenter></GridViewRowPresenter>-->
+                            </Border>
+                        </ControlTemplate>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListViewItem">
+                                        <ContentPresenter></ContentPresenter>
+                                        <!--<GridViewRowPresenter></GridViewRowPresenter>-->
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="IsSelected" Value="true" />
+                                        <!--<Condition Property="Selector.IsSelectionActive" Value="true" />-->
+                                    </MultiTrigger.Conditions>
+                                    <Setter Property="Template" Value="{StaticResource SelectedTemplate}" />
+                                </MultiTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.Resources>
+                    <ListView.View>
+                        <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
+                            <GridViewColumn DisplayMemberBinding="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}, Mode=OneWay}">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Width="16" Height="16" Source="{Binding}" Margin="0 0 5 0" Opacity="1"></Image>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn DisplayMemberBinding="{Binding Label, Mode=OneWay}"  />
+                            <GridViewColumn DisplayMemberBinding="{Binding DisplayText, Mode=OneWay}"  />
+                            <GridViewColumn DisplayMemberBinding="{Binding Details, Mode=OneWay}" Width="Auto" />
+                        </GridView>
+                    </ListView.View>
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type viewModels11:WindowResult}">
+                            <Grid Margin="0 0 5 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="38"></ColumnDefinition>
+                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                            <!--<StackPanel Orientation="Horizontal">-->
+                                <Image Source="{Binding Icon.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}" Width="32" SnapsToDevicePixels="True" Opacity="1"></Image>
+
+                                <TextBlock Grid.Column="1" FontSize="14" Text="{Binding Label, Mode=OneWay}" Margin="5 0 0 0" FontWeight="Bold" VerticalAlignment="Center"/>
+                                <TextBlock Grid.Column="2" FontSize="14" Text="{Binding DisplayText, Mode=OneWay}" VerticalAlignment="Center"></TextBlock>
+                                    <!--<Run Text="{Binding Details, Mode=OneWay}" Foreground="DimGray" FontSize="10"></Run>-->
+                            <!--</StackPanel>-->
+                            </Grid>
+
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+                <TextBox 
+                    BorderThickness="2"
+                    BorderBrush="#aa444444"
+                    Margin="0 4 0 0" 
+                    Background="#aa000000" 
+                    Foreground="#ffdddddd" 
+                    FontSize="14" 
+                    Grid.ColumnSpan="2" 
+                    Grid.Row="1" 
+                    x:Name="Input" 
+                    TextChanged="Input_OnTextChanged">                        
+                </TextBox>
+                <!--<Rectangle Fill="Red" Grid.Column="1"></Rectangle>-->
+                <!--<windowSelector:Thumbnail Width="300" Visibility="{Binding ElementName=FoundWindows, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"  Grid.Column="1" Source="{Binding ElementName=FoundWindows, Path=SelectedItem.hWnd}" ></windowSelector:Thumbnail>-->
+                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 2 0 0">
+
+                    <Ellipse 
+                        Fill="{Binding ChromeConnected, Converter={StaticResource BoolToConnectionBrushConverter}}" 
+                        Height="16"
+                        Width="16"
+                         
+                        StrokeThickness="1" Margin="0 0 2 0" />
+                    <TextBlock Foreground="White">Chrome</TextBlock>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

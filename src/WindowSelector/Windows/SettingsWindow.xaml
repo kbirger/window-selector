@@ -1,0 +1,53 @@
+﻿<Window x:Class="WindowSelector.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:converters="clr-namespace:WindowSelector.Converters"
+        xmlns:controls="clr-namespace:WindowSelector.Controls"
+        Title="SettingsWindow" Width="300" Background="#ff555555" SizeToContent="Height">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+        <Style TargetType="DockPanel">
+            <Setter Property="Margin" Value="10 10 10 0"></Setter>
+
+        </Style>
+        <Style TargetType="controls:HotkeyTextBox">
+            <Style.Triggers>
+                <Trigger Property="IsListening" Value="True">
+                    <Trigger.Setters>
+                        <Setter Property="Background" Value="LimeGreen"></Setter>
+                    </Trigger.Setters>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+        <converters:HotkeyConverter x:Key="HotkeyConverter"></converters:HotkeyConverter>
+    </Window.Resources>
+    <Grid Margin="0 0">
+        <DockPanel LastChildFill="False">
+            <ListView DockPanel.Dock="Top" ItemsSource="{Binding Path=Hotkeys}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding HotkeyName, Mode=OneWay}" Header="Description"></GridViewColumn>
+                        <GridViewColumn Header="Hotkey">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DockPanel Background="Red" HorizontalAlignment="Stretch" >
+                                        <controls:HotkeyTextBox DockPanel.Dock="Top"  Grid.Column="1" IsReadOnly="True" Hotkey="{Binding Hotkey, Mode=TwoWay}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <DockPanel DockPanel.Dock="Bottom">
+                <Button Click="Save_Click">Save</Button>
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</Window>
+
