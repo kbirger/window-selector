@@ -3,31 +3,33 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Infrastructure;
-using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Microsoft.Owin.Hosting;
-using Microsoft.Owin.Logging;
 using Owin;
+using WindowSelector.Common;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
-using WindowSelector.Plugins.BrowserTabs;
+using WindowSelector.Plugins.BrowserTabs.ViewModels;
 using WindowSelector.Signalr;
 using WindowSelector.Signalr.Providers;
-using WindowSelector.Signalr.ViewModels;
 using ILogger = NLog.ILogger;
 
 namespace WindowSelector.Plugins.BrowserTabs
 {
     public class BrowserTabsPlugin : IPlugin
     {
+        private readonly HubConnectionTrackerService _hubConnectionTrackerService;
+        private readonly string[] BROWSERS = new[] {"Chrome"};
         public BrowserTabsPlugin(
             [Import(typeof(Func<ILogger>))] Func<ILogger> loggerFactory, 
             [Import(typeof(IConfigurationProvider))] IConfigurationProvider configurationProvider, 
-            [Import(typeof(IWindowManager))] IWindowManager windowManager)
+            [Import(typeof(IWindowManager))] IWindowManager windowManager,
+            [Import(typeof(HubConnectionTrackerService))] HubConnectionTrackerService hubConnectionTrackerService)
         {
-            RegisterTypes(loggerFactory, configurationProvider, windowManager);
+            RegisterTypes(loggerFactory, configurationProvider, windowManager, hubConnectionTrackerService);
 
             // todo: configurable
             string url = "http://localhost:8084";
@@ -39,9 +41,16 @@ namespace WindowSelector.Plugins.BrowserTabs
             };
 
             RecentResultServices = new IRecentWindowRepository[0];
+            _hubConnectionTrackerService = hubConnectionTrackerService;
+            _hubConnectionTrackerService.CountChanged += HubConnectionTrackerServiceOnCountChanged;
         }
 
-        private void RegisterTypes(Func<ILogger> loggerFactory, IConfigurationProvider configurationProvider, IWindowManager windowManager)
+        private void HubConnectionTrackerServiceOnCountChanged(object sender, HubConnectionTrackerService.ConnectionCountChangedEventArgs connectionCountChangedEventArgs)
+        {
+            PluginStatusChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RegisterTypes(Func<ILogger> loggerFactory, IConfigurationProvider configurationProvider, IWindowManager windowManager, HubConnectionTrackerService hubConnectionTrackerService)
         {
             GlobalHost.DependencyResolver.Register(
                 typeof(Func<ILogger>), 
@@ -56,7 +65,6 @@ namespace WindowSelector.Plugins.BrowserTabs
                 GlobalHost.DependencyResolver.Resolve<IConnectionManager>(),
                 GlobalHost.DependencyResolver.Resolve<Func<ILogger>>());
 
-            var connectionTrackingService = new HubConnectionTrackerService();
             
             var tabWindowResultFactory = new TabWindowResultFactory(
                 GlobalHost.DependencyResolver.Resolve<IConnectionManager>(), 
@@ -73,11 +81,11 @@ namespace WindowSelector.Plugins.BrowserTabs
 
             GlobalHost.DependencyResolver.Register(
                 typeof(HubConnectionTrackerService),
-                () => connectionTrackingService);
+                () => hubConnectionTrackerService);
 
             GlobalHost.DependencyResolver.Register(
                 typeof(ChromeTabsHub),
-                () => new ChromeTabsHub(tabsReceiver, connectionTrackingService));
+                () => new ChromeTabsHub(tabsReceiver, hubConnectionTrackerService));
 
             var tabProvider = new ChromeWindowResultProvider(
                 tabsReceiver,
@@ -93,6 +101,14 @@ namespace WindowSelector.Plugins.BrowserTabs
 
         public IEnumerable<IWindowResultProvider> ResultServices { get; }
         public IEnumerable<IRecentWindowRepository> RecentResultServices { get; }
+        public event EventHandler PluginStatusChanged;
+        public IEnumerable<PluginStatusInfo> GetPluginStatus()
+        {
+            return
+                BROWSERS.Select(
+                    browser =>
+                        new PluginStatusInfo(browser, _hubConnectionTrackerService.GetConnectionCount(browser) > 0));
+        }
     }
     class Startup
     {

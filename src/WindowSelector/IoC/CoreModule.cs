@@ -3,7 +3,6 @@ using Autofac;
 using Autofac.Integration.Mef;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
-using WindowSelector.Providers;
 //using WindowSelector.Signalr.Providers;
 //using WindowSelector.Signalr.ViewModels;
 using WindowSelector.ViewModels;
@@ -42,8 +41,8 @@ namespace WindowSelector.IoC
 
             //builder.RegisterType<TabWindowResult>().As<TabWindowResult>();
             //builder.RegisterType<NativeWindowResult>().As<NativeWindowResult>();
-            builder.RegisterType<GoogleSuggestionWindowResult>().As<GoogleSuggestionWindowResult>();
-
+            //builder.RegisterType<GoogleSuggestionWindowResult>().As<GoogleSuggestionWindowResult>();
+            builder.RegisterType<PluginStatusViewModel>().As<PluginStatusViewModel>();
             //builder.RegisterType<NativeWindowResultProvider>().As<IWindowResultProvider>().SingleInstance();
             //builder.RegisterType<ChromeWindowResultProvider>().As<IWindowResultProvider>().SingleInstance();
             //builder.RegisterType<GoogleSearchSuggestionProvider>().As<IWindowResultProvider>().SingleInstance();

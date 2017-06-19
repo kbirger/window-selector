@@ -5,9 +5,9 @@ using Moq;
 using NLog;
 using NUnit.Framework;
 using WindowSelector.Common.Configuration;
+using WindowSelector.Plugins.BrowserTabs.ViewModels;
 using WindowSelector.Signalr;
 using WindowSelector.Signalr.Models;
-using WindowSelector.Signalr.ViewModels;
 using WindowSelector.Tests._Utils;
 
 namespace WindowSelector.Tests.ViewModels

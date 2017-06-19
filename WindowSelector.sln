@@ -13,13 +13,29 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Win32", "src
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{EE16556A-0DBC-41A0-881F-DD03657BE53B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Common", "WindowSelector.Common\WindowSelector.Common.csproj", "{EDF7371A-CE7A-475E-844E-2B7D50D6C8F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Common", "src\WindowSelector.Common\WindowSelector.Common.csproj", "{EDF7371A-CE7A-475E-844E-2B7D50D6C8F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Plugins.Win32", "src\WindowSelector.Plugins.Win32\WindowSelector.Plugins.Win32.csproj", "{BFEF9D88-A228-4F00-9B81-B5049C4DB67A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Plugins.Win32.WpfViews", "src\WindowSelector.Plugins.Win32.WpfViews\WindowSelector.Plugins.Win32.WpfViews.csproj", "{19D82A9A-57FF-43CC-8FA1-5E5D0246D5E5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Common.WPF", "src\WindowSelector.Common.WPF\WindowSelector.Common.WPF.csproj", "{ADB2816F-057E-4520-88B5-108C618266E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Plugins.BrowserTabs.WpfViews", "src\WindowSelector.Plugins.BrowserTabs.WpfViews\WindowSelector.Plugins.BrowserTabs.WpfViews.csproj", "{4AC969FF-561C-418E-AA4F-D2122F347667}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Plugins.GoogleSearchSuggestions", "src\WindowSelector.Plugins.GoogleSearchSuggestions\WindowSelector.Plugins.GoogleSearchSuggestions.csproj", "{D43560FB-4932-4CCF-9ABE-6548B3135934}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0E2E343A-B8C1-4BDC-B006-F65394E6536A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Common.Tests", "tests\WindowSelector.Common.Tests\WindowSelector.Common.Tests.csproj", "{336ED186-63FE-4631-8594-D7A9EFFE045E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Plugins.BrowserTabs.Tests", "tests\WindowSelector.Plugins.BrowserTabs.Tests\WindowSelector.Plugins.BrowserTabs.Tests.csproj", "{F3EE994D-6EDF-46B3-A2E7-3751AE137C34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Plugins.GoogleSearchSuggestions.Tests", "tests\WindowSelector.Plugins.GoogleSearchSuggestions.Tests\WindowSelector.Plugins.GoogleSearchSuggestions.Tests.csproj", "{DB418F4A-9DB4-4AD3-AE80-F1BFBA968AC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Plugins.Win32.Tests", "tests\WindowSelector.Plugins.Win32.Tests\WindowSelector.Plugins.Win32.Tests.csproj", "{6C3A38A8-C8D2-4457-A419-2EA68AB0E21E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Win32.Tests", "tests\WindowSelector.Win32.Tests\WindowSelector.Win32.Tests.csproj", "{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,8 +75,44 @@ Global
 		{ADB2816F-057E-4520-88B5-108C618266E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADB2816F-057E-4520-88B5-108C618266E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADB2816F-057E-4520-88B5-108C618266E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AC969FF-561C-418E-AA4F-D2122F347667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AC969FF-561C-418E-AA4F-D2122F347667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AC969FF-561C-418E-AA4F-D2122F347667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AC969FF-561C-418E-AA4F-D2122F347667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D43560FB-4932-4CCF-9ABE-6548B3135934}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D43560FB-4932-4CCF-9ABE-6548B3135934}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D43560FB-4932-4CCF-9ABE-6548B3135934}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D43560FB-4932-4CCF-9ABE-6548B3135934}.Release|Any CPU.Build.0 = Release|Any CPU
+		{336ED186-63FE-4631-8594-D7A9EFFE045E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{336ED186-63FE-4631-8594-D7A9EFFE045E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{336ED186-63FE-4631-8594-D7A9EFFE045E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{336ED186-63FE-4631-8594-D7A9EFFE045E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3EE994D-6EDF-46B3-A2E7-3751AE137C34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3EE994D-6EDF-46B3-A2E7-3751AE137C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3EE994D-6EDF-46B3-A2E7-3751AE137C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3EE994D-6EDF-46B3-A2E7-3751AE137C34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB418F4A-9DB4-4AD3-AE80-F1BFBA968AC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB418F4A-9DB4-4AD3-AE80-F1BFBA968AC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB418F4A-9DB4-4AD3-AE80-F1BFBA968AC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB418F4A-9DB4-4AD3-AE80-F1BFBA968AC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C3A38A8-C8D2-4457-A419-2EA68AB0E21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C3A38A8-C8D2-4457-A419-2EA68AB0E21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C3A38A8-C8D2-4457-A419-2EA68AB0E21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C3A38A8-C8D2-4457-A419-2EA68AB0E21E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E99457B4-5D84-4E10-B061-E0D6E5CAABF2} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
+		{336ED186-63FE-4631-8594-D7A9EFFE045E} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
+		{F3EE994D-6EDF-46B3-A2E7-3751AE137C34} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
+		{DB418F4A-9DB4-4AD3-AE80-F1BFBA968AC1} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
+		{6C3A38A8-C8D2-4457-A419-2EA68AB0E21E} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
+		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
 	EndGlobalSection
 EndGlobal

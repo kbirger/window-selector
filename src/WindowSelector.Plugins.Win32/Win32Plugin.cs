@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using WindowSelector.Common;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Plugins.Win32.Providers;
@@ -45,5 +46,10 @@ namespace WindowSelector.Plugins.Win32
 
         public IEnumerable<IWindowResultProvider> ResultServices { get; private set; }
         public IEnumerable<IRecentWindowRepository> RecentResultServices { get; private set; }
+        public event EventHandler PluginStatusChanged;
+        public IEnumerable<PluginStatusInfo> GetPluginStatus()
+        {
+            return new PluginStatusInfo[0];
+        }
     }
 }

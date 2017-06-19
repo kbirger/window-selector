@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using WindowSelector.ViewModels;
 using Flurl.Http;
 using Newtonsoft.Json;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
 using WindowSelector.Models;
+using WindowSelector.ViewModels;
 
-namespace WindowSelector.Providers
+namespace WindowSelector.Plugins.GoogleSearchSuggestions.Providers
 {
     public class GoogleSearchSuggestionProvider : IWindowResultProvider
     {

@@ -7,8 +7,8 @@ using NLog;
 using WindowSelector.Common;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
+using WindowSelector.Plugins.BrowserTabs.ViewModels;
 using WindowSelector.Signalr.Models;
-using WindowSelector.Signalr.ViewModels;
 
 namespace WindowSelector.Signalr.Providers
 {

@@ -46,7 +46,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\WindowSelector.Common\WindowSelector.Common.csproj">
+    <ProjectReference Include="..\WindowSelector.Common\WindowSelector.Common.csproj">
       <Project>{EDF7371A-CE7A-475E-844E-2B7D50D6C8F8}</Project>
       <Name>WindowSelector.Common</Name>
     </ProjectReference>

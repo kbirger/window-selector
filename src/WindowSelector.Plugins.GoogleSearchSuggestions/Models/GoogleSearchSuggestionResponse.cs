@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using WindowSelector.Properties;
-
+using WindowSelector.Common.Properties;
 namespace WindowSelector.Models
 {
     [JsonConverter(typeof(GoogleSearchSuggestionConverter))]

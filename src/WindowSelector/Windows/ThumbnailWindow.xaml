@@ -19,7 +19,6 @@
         >
     <Window.Resources>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
-        <converters:WindowResultThumbnailConverter x:Key="WindowResultThumbnailConverter" />
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
         <windows:ResultDataTemplateSelector x:Key="ResultDataTemplateSelector"></windows:ResultDataTemplateSelector>
     </Window.Resources>

@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewmodels="clr-namespace:WindowSelector.Plugins.BrowserTabs.ViewModels;assembly=WindowSelector.Plugins.BrowserTabs"
+                    xmlns:converters="clr-namespace:WindowSelector.Plugins.BrowserTabs.WpfViews.Converters;assembly=WindowSelector.Plugins.BrowserTabs.WpfViews">
+    <converters:WindowResultThumbnailConverter x:Key="WindowResultThumbnailConverter"></converters:WindowResultThumbnailConverter> 
+    <DataTemplate DataType="{x:Type viewmodels:TabWindowResult}">
+        <Image Source="{Binding Converter={StaticResource WindowResultThumbnailConverter}}"></Image>
+    </DataTemplate>
+    
+    
+
+</ResourceDictionary>

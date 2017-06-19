@@ -196,7 +196,27 @@
                 </TextBox>
                 <!--<Rectangle Fill="Red" Grid.Column="1"></Rectangle>-->
                 <!--<windowSelector:Thumbnail Width="300" Visibility="{Binding ElementName=FoundWindows, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"  Grid.Column="1" Source="{Binding ElementName=FoundWindows, Path=SelectedItem.hWnd}" ></windowSelector:Thumbnail>-->
-                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 2 0 0">
+                <ItemsControl Grid.Row="2" Margin="0 2 0 0" ItemsSource="{Binding PluginStatuses.PluginStatuses}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse 
+                                    Fill="{Binding IsActive, Converter={StaticResource BoolToConnectionBrushConverter}}" 
+                                    Height="16"
+                                    Width="16"
+                                    StrokeThickness="1" 
+                                    Margin="0 0 2 0" />
+                                <TextBlock Foreground="White" Text="{Binding Item}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <!--<StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0 2 0 0">
 
                     <Ellipse 
                         Fill="{Binding ChromeConnected, Converter={StaticResource BoolToConnectionBrushConverter}}" 
@@ -205,7 +225,7 @@
                          
                         StrokeThickness="1" Margin="0 0 2 0" />
                     <TextBlock Foreground="White">Chrome</TextBlock>
-                </StackPanel>
+                </StackPanel>-->
             </Grid>
         </Border>
     </Grid>

@@ -66,7 +66,7 @@
       <Project>{BDF635B2-0165-4DD1-96CF-39FD1E1A428C}</Project>
       <Name>WindowSelector.Win32</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\WindowSelector\WindowSelector.Common\WindowSelector.Common.csproj">
+    <ProjectReference Include="..\WindowSelector.Common\WindowSelector.Common.csproj">
       <Project>{edf7371a-ce7a-475e-844e-2b7d50d6c8f8}</Project>
       <Name>WindowSelector.Common</Name>
     </ProjectReference>

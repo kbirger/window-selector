@@ -62,7 +62,7 @@ namespace WindowSelector.Common.Properties
     AttributeTargets.Method | AttributeTargets.Parameter | AttributeTargets.Property |
     AttributeTargets.Delegate | AttributeTargets.Field | AttributeTargets.Event |
     AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.GenericParameter)]
-  internal sealed class NotNullAttribute : Attribute { }
+  public sealed class NotNullAttribute : Attribute { }
 
   /// <summary>
   /// Can be appplied to symbols of types derived from IEnumerable as well as to symbols of Task

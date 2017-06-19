@@ -1,8 +1,6 @@
 using System;
 using System.ComponentModel.Composition;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Threading;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Infrastructure;
@@ -11,9 +9,10 @@ using WindowSelector.Common;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
+using WindowSelector.Signalr;
 using WindowSelector.Signalr.Models;
 
-namespace WindowSelector.Signalr.ViewModels
+namespace WindowSelector.Plugins.BrowserTabs.ViewModels
 {
     public interface ITabWindowResultFactory
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
@@ -10,7 +11,7 @@ namespace WindowSelector.Signalr
     [HubName("chromeTabsHub")]
     public class ChromeTabsHub : Hub
     {
-        public const string HubName = "chromeTabsHub";
+        public const string ChromeClient = "Chrome";
         private ITabsReceiver _tabsReceiver;
         private HubConnectionTrackerService _connections;
 
@@ -27,28 +28,31 @@ namespace WindowSelector.Signalr
 
         public override Task OnConnected()
         {
-            _connections.Add(HubName, Context.ConnectionId);
+            // todo: groups?
+            //Groups.Add(Context.ConnectionId, ChromeClient);
+            _connections.Add(ChromeClient, Context.ConnectionId);
             return base.OnConnected();
         }
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            _connections.Remove(HubName, Context.ConnectionId);
+            // todo: groups?
+            //Groups.Remove(Context.ConnectionId, ChromeClient);
+            _connections.Remove(ChromeClient, Context.ConnectionId);
 
             return base.OnDisconnected(stopCalled);
         }
 
         public override Task OnReconnected()
         {
-            _connections.Add(HubName, Context.ConnectionId);
+            _connections.Add(ChromeClient, Context.ConnectionId);
             return base.OnReconnected();
         }
     }
 
-
+    [Export(typeof(HubConnectionTrackerService))]
     public class HubConnectionTrackerService
     {
-
         public sealed class ConnectionCountChangedEventArgs : EventArgs
         {
             public ConnectionCountChangedEventArgs(string name)
@@ -67,11 +71,12 @@ namespace WindowSelector.Signalr
         {
             CountChanged?.Invoke(this, new ConnectionCountChangedEventArgs(name));
         }
-        public int Count
+        public int GetCount(string key)
         {
-            get
+            lock (_connections)
             {
-                return _connections.Count;
+                HashSet<string> ret;
+                return !_connections.TryGetValue(key, out ret) ? 0 : ret.Count;
             }
         }
 

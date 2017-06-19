@@ -20,8 +20,8 @@ namespace WindowSelector.ViewModels
             else if (string.IsNullOrWhiteSpace(suggestion.Url))
             {
                 Label = "Visit: ";
-                DisplayText = suggestion.Term;
-                Details = suggestion.Description;
+                DisplayText = suggestion.Description;
+                Details = suggestion.Term;
             }
             else
             {
@@ -31,6 +31,8 @@ namespace WindowSelector.ViewModels
             }
             _value = suggestion;
         }
+
+        private string _link = null;
         public override void Select(bool centerWindow)
         {
             Process.Start(Details);

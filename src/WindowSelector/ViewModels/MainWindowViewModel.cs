@@ -18,6 +18,8 @@ namespace WindowSelector.ViewModels
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        public PluginStatusViewModel PluginStatuses { get; private set; }
+
         public sealed class WindowEventArgs : EventArgs
         {
             public WindowResult WindowResult { get; private set; }
@@ -39,8 +41,9 @@ namespace WindowSelector.ViewModels
         private HotkeySetting _minimizeKey;
         private HotkeySetting _closeKey;
 
-        public MainWindowViewModel(/*HubConnectionTrackerService connectionTrackerService, */ILogger logger, IConfigurationProvider configurationProvider, Func<WindowResultsViewModel> windowResultViewFactory)
+        public MainWindowViewModel(/*HubConnectionTrackerService connectionTrackerService, */ILogger logger, IConfigurationProvider configurationProvider, Func<WindowResultsViewModel> windowResultViewFactory, PluginStatusViewModel pluginStatuses)
         {
+            PluginStatuses = pluginStatuses;
             _results = windowResultViewFactory();
             _configurationProvider = configurationProvider;
             _windowResultViewFactory = windowResultViewFactory;
