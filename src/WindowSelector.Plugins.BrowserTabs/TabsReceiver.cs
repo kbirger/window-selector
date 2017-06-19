@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Infrastructure;
 using NLog;
-using WindowSelector.Signalr.Models;
+using WindowSelector.Plugins.BrowserTabs.Models;
 
-namespace WindowSelector.Signalr
+namespace WindowSelector.Plugins.BrowserTabs
 {
     public interface ITabsReceiver
     {

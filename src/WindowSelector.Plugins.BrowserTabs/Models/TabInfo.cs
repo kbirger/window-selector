@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace WindowSelector.Signalr.Models
+namespace WindowSelector.Plugins.BrowserTabs.Models
 {
     public class TabInfo
     {

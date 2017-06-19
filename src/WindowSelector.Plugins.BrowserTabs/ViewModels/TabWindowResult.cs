@@ -9,8 +9,7 @@ using WindowSelector.Common;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
-using WindowSelector.Signalr;
-using WindowSelector.Signalr.Models;
+using WindowSelector.Plugins.BrowserTabs.Models;
 
 namespace WindowSelector.Plugins.BrowserTabs.ViewModels
 {

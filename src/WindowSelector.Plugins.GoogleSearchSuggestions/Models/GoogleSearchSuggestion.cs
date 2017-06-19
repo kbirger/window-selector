@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WindowSelector.Models
+namespace WindowSelector.Plugins.GoogleSearchSuggestions.Models
 {
     public class GoogleSearchSuggestion
     {

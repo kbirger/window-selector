@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Threading;
 using Moq;
+using WindowSelector.Plugins.Win32;
 using WindowSelector.Win32;
 
 namespace WindowSelector.Tests

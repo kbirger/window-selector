@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Net;
 using WindowSelector.Common.ViewModels;
-using WindowSelector.Models;
+using WindowSelector.Plugins.GoogleSearchSuggestions.Models;
 
-namespace WindowSelector.ViewModels
+namespace WindowSelector.Plugins.GoogleSearchSuggestions.ViewModels
 {
     public class GoogleSuggestionWindowResult : WindowResult
     {

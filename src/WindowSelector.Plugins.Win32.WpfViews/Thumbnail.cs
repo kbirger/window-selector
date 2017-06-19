@@ -5,7 +5,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using WindowSelector.Win32;
 
-namespace WindowSelector.Controls
+namespace WindowSelector.Plugins.Win32.WpfViews
 {
     // Not my class, and also mostly impossible to unit test
     [ExcludeFromCodeCoverage]

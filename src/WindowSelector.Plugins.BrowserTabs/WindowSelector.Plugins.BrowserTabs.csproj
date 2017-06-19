@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChromeTabsHub.cs" />
+    <Compile Include="HubConnectionTrackerService.cs" />
     <Compile Include="Providers\ChromeWindowResultProvider.cs" />
     <Compile Include="IChromeExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

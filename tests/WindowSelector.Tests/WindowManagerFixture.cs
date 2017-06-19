@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Threading;
 using Castle.Core.Internal;
 using WindowSelector.Common.Configuration;
+using WindowSelector.Plugins.Win32;
 using WindowSelector.Tests._Utils;
 using WindowSelector.Win32;
 

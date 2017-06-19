@@ -11,7 +11,7 @@ using WindowSelector.Common.Interfaces;
 using WindowSelector.Plugins.Win32.Models;
 using WindowSelector.Win32;
 
-namespace WindowSelector
+namespace WindowSelector.Plugins.Win32
 {
     [Export(typeof(IWindowManager))]
     public class WindowManager : IWindowManager

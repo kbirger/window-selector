@@ -6,7 +6,7 @@ using WindowSelector.Common;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Plugins.GoogleSearchSuggestions.Providers;
-using WindowSelector.ViewModels;
+using WindowSelector.Plugins.GoogleSearchSuggestions.ViewModels;
 
 namespace WindowSelector.Plugins.GoogleSearchSuggestions
 {

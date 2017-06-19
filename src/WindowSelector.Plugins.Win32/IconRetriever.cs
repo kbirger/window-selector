@@ -5,8 +5,9 @@ using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using WindowSelector.Plugins.Win32.Properties;
+using WindowSelector.Win32;
 
-namespace WindowSelector.Win32
+namespace WindowSelector.Plugins.Win32
 {
     public class IconRetriever : INotifyPropertyChanged
     {

@@ -8,9 +8,8 @@ using WindowSelector.Common;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
 using WindowSelector.Plugins.BrowserTabs.ViewModels;
-using WindowSelector.Signalr.Models;
 
-namespace WindowSelector.Signalr.Providers
+namespace WindowSelector.Plugins.BrowserTabs.Providers
 {
     public class ChromeWindowResultProvider : IWindowResultProvider
     {

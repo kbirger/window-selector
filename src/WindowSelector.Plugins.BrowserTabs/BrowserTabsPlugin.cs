@@ -12,9 +12,8 @@ using Owin;
 using WindowSelector.Common;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
+using WindowSelector.Plugins.BrowserTabs.Providers;
 using WindowSelector.Plugins.BrowserTabs.ViewModels;
-using WindowSelector.Signalr;
-using WindowSelector.Signalr.Providers;
 using ILogger = NLog.ILogger;
 
 namespace WindowSelector.Plugins.BrowserTabs

@@ -6,8 +6,8 @@ using Flurl.Http;
 using Newtonsoft.Json;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
-using WindowSelector.Models;
-using WindowSelector.ViewModels;
+using WindowSelector.Plugins.GoogleSearchSuggestions.Models;
+using WindowSelector.Plugins.GoogleSearchSuggestions.ViewModels;
 
 namespace WindowSelector.Plugins.GoogleSearchSuggestions.Providers
 {

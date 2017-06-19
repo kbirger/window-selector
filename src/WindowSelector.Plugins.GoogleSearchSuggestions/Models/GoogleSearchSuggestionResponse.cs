@@ -4,7 +4,8 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WindowSelector.Common.Properties;
-namespace WindowSelector.Models
+
+namespace WindowSelector.Plugins.GoogleSearchSuggestions.Models
 {
     [JsonConverter(typeof(GoogleSearchSuggestionConverter))]
     public class GoogleSearchSuggestionResponse

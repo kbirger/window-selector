@@ -9,7 +9,6 @@ using WindowSelector.Converters;
 using WindowSelector.Plugins.BrowserTabs.ViewModels;
 using WindowSelector.Plugins.Win32.Models;
 using WindowSelector.Plugins.Win32.ViewModels;
-using WindowSelector.Signalr.Models;
 using WindowSelector.Win32;
 
 namespace WindowSelector.Tests.Converters

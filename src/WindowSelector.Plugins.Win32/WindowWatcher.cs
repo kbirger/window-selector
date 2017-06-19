@@ -5,7 +5,7 @@ using NLog;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Win32;
 
-namespace WindowSelector
+namespace WindowSelector.Plugins.Win32
 {
     public interface IWindowWatcher
     {
