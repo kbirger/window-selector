@@ -2,7 +2,6 @@
 using Autofac;
 using Autofac.Integration.Mef;
 using WindowSelector.Common.Configuration;
-using WindowSelector.Common.Interfaces;
 //using WindowSelector.Signalr.Providers;
 //using WindowSelector.Signalr.ViewModels;
 using WindowSelector.ViewModels;

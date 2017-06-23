@@ -1,4 +1,4 @@
-﻿namespace WindowSelector.Tests.Configuration
+﻿namespace WindowSelector.Common.Tests.Configuration
 {
     class DirtyManagerFixture
     {

@@ -2,10 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
-using Microsoft.Owin.Cors;
-using Microsoft.Owin.Hosting;
 using NLog;
-using Owin;
 using WindowSelector.IoC;
 using WindowSelector.Windows;
 

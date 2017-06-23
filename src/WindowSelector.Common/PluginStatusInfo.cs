@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WindowSelector.Common
+﻿namespace WindowSelector.Common
 {
     /// <summary>
     /// Reports the status of a plugin component

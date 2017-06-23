@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -10,7 +9,6 @@ using System.Windows.Input;
 using NLog;
 using WindowSelector.Commands;
 using WindowSelector.Common.Configuration;
-using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
 //using WindowSelector.Signalr;
 

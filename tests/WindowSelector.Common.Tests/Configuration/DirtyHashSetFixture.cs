@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
-using NUnit.Framework;
 using System.Linq;
-using Autofac;
-using Autofac.Builder;
 using Autofac.Extras.Moq;
 using Moq;
+using NUnit.Framework;
 using WindowSelector.Common.Configuration;
 
-namespace WindowSelector.Tests
+namespace WindowSelector.Common.Tests.Configuration
 {
     [TestFixture]
     public class DirtyHashSetFixture

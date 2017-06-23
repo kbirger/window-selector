@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -7,9 +6,10 @@ using System.Security.Permissions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
-using WindowSelector.Common;
+using NUnit.Framework;
+using WindowSelector.Tests;
 
-namespace WindowSelector.Tests
+namespace WindowSelector.Common.Tests
 {
     // todo: bleongs with non cross platform code
     [TestFixture]

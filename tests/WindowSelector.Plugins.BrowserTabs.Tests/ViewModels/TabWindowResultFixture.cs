@@ -6,12 +6,11 @@ using Moq;
 using NLog;
 using NUnit.Framework;
 using WindowSelector.Common.Configuration;
-using WindowSelector.Plugins.BrowserTabs;
 using WindowSelector.Plugins.BrowserTabs.Models;
 using WindowSelector.Plugins.BrowserTabs.ViewModels;
 using WindowSelector.Tests.Utilities;
 
-namespace WindowSelector.Tests.ViewModels
+namespace WindowSelector.Plugins.BrowserTabs.Tests.ViewModels
 {
     [TestFixture]
     public class TabWindowResultFixture

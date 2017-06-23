@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using WindowSelector.Common.Configuration;
 
-namespace WindowSelector.Tests.Configuration
+namespace WindowSelector.Common.Tests.Configuration
 {
     [TestFixture]
     public class HotkeySettingFixture

@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
 using Autofac;
 using Autofac.Core;
 using Autofac.Integration.Mef;
-using Autofac.Integration.SignalR;
 using Microsoft.AspNet.SignalR;
 using NLog;
-using Owin;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.WPF;
 

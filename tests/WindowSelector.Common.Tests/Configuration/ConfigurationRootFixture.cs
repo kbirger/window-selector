@@ -1,13 +1,13 @@
 ﻿using System.IO;
 using System.Text;
+using System.Windows.Input;
 using SystemInterface.IO;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using System.Windows.Input;
 using WindowSelector.Common.Configuration;
 
-namespace WindowSelector.Tests.Configuration
+namespace WindowSelector.Common.Tests.Configuration
 {
     [TestFixture]
     public class ConfigurationRootFixture

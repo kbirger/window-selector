@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 using WindowSelector.Common;
-using WindowSelector.Win32;
 
 namespace WindowSelector.Plugins.Win32.Models
 {

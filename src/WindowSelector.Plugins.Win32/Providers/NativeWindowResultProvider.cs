@@ -5,12 +5,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 using WindowSelector.Common;
-using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
 using WindowSelector.Plugins.Win32.Models;
 using WindowSelector.Plugins.Win32.ViewModels;
-using WindowSelector.Win32;
 
 namespace WindowSelector.Plugins.Win32.Providers
 {

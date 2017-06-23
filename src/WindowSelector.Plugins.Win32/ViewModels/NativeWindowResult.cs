@@ -4,7 +4,6 @@ using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
 using WindowSelector.Common.ViewModels;
 using WindowSelector.Plugins.Win32.Models;
-using WindowSelector.Win32;
 
 namespace WindowSelector.Plugins.Win32.ViewModels
 {

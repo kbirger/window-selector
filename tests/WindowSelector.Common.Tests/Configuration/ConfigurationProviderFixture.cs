@@ -1,9 +1,9 @@
-﻿using NUnit.Framework;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using NUnit.Framework;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Tests.Utilities;
 
-namespace WindowSelector.Tests.Configuration
+namespace WindowSelector.Common.Tests.Configuration
 {
     [TestFixture]
     public class ConfigurationProviderFixture
