@@ -62,7 +62,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\..\..\WindowSelector\src\WindowSelector.Win32\WindowSelector.Win32.csproj">
+    <ProjectReference Include="..\WindowSelector.Win32\WindowSelector.Win32.csproj">
       <Project>{BDF635B2-0165-4DD1-96CF-39FD1E1A428C}</Project>
       <Name>WindowSelector.Win32</Name>
     </ProjectReference>
