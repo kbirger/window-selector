@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Plugins.Win3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Win32.Tests", "tests\WindowSelector.Win32.Tests\WindowSelector.Win32.Tests.csproj", "{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowSelector.Tests.Utilities", "tests\WindowSelector.Tests.Utilities\WindowSelector.Tests.Utilities.csproj", "{549D0E4F-A0B3-49DE-8921-21EFA2E53F78}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{549D0E4F-A0B3-49DE-8921-21EFA2E53F78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{549D0E4F-A0B3-49DE-8921-21EFA2E53F78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{549D0E4F-A0B3-49DE-8921-21EFA2E53F78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{549D0E4F-A0B3-49DE-8921-21EFA2E53F78}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -114,5 +120,6 @@ Global
 		{DB418F4A-9DB4-4AD3-AE80-F1BFBA968AC1} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
 		{6C3A38A8-C8D2-4457-A419-2EA68AB0E21E} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
 		{C3FFE12A-0DFB-4517-B9CF-DC5842033AA5} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
+		{549D0E4F-A0B3-49DE-8921-21EFA2E53F78} = {0E2E343A-B8C1-4BDC-B006-F65394E6536A}
 	EndGlobalSection
 EndGlobal

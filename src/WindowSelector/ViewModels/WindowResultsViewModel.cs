@@ -52,9 +52,14 @@ namespace WindowSelector.ViewModels
         public async Task<WindowResultsViewModel> GetDefault()
         {
             int maxResults = 20;
-            var recentWindows  = (await Task.WhenAll(_recentWindowRepositories.Select(p => p.GetRecentWindows(maxResults)))).SelectMany(x => x); ;
-                    
-            var recentWindowsTrimmed = recentWindows.Take(maxResults);
+            //var recentWindows  = (await Task.WhenAll(_recentWindowRepositories.Select(p => p.GetRecentWindows(maxResults)))).SelectMany(x => x); ;
+            var recentWindows = await Task.Run(() =>
+            {
+                return Task.WhenAll(_recentWindowRepositories.Select(p => p.GetRecentWindows(maxResults)));
+            });
+
+            var v = recentWindows.SelectMany(x => x);
+            var recentWindowsTrimmed = v.Take(maxResults);
 
             WriteResults(recentWindowsTrimmed.ToList());
 

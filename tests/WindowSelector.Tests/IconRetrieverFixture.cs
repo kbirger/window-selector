@@ -26,7 +26,7 @@ namespace WindowSelector.Tests
                 retriever.LoadIcon(hWnd);
                 // Assert
                 Assert.That(retriever.Icon, Is.EqualTo(tempIcon));
-                Assert.That(retriever.Image.Width, Is.EqualTo(16));
+                Assert.That(retriever.Image.Width, Is.EqualTo(16).Within(0.003));
             }
         }
 
@@ -43,18 +43,15 @@ namespace WindowSelector.Tests
                 mock.Mock<IWin32ApiWrapper>()
                     .Setup(
                         api =>
-                            api.SendMessageAsync(hWnd, It.IsAny<uint>(), It.IsAny<int>(),
-                                It.IsAny<Win32Api.SendMessageDelegate>()))
-                    .Callback(new Action<IntPtr, uint, int, Win32Api.SendMessageDelegate>((handle, msg, wParam, callback) =>
-                    {
-                        callback(handle, msg, UIntPtr.Zero, tempIcon.Handle);
-                    }));
+                            api.SendMessageTimeout(hWnd, It.IsAny<uint>(), It.IsAny<int>(), It.IsAny<IntPtr>(),It.IsAny<uint>()))
+                    .Returns(tempIcon.Handle);
+                                
                 IconRetriever retriever = mock.Create<IconRetriever>();
                 // Act
                 retriever.LoadIcon(hWnd);
                 // Assert
                 Assert.That(retriever.Icon.Width, Is.EqualTo(tempIcon.Width));
-                Assert.That(retriever.Image.Width, Is.EqualTo(16));
+                Assert.That(retriever.Image.Width, Is.EqualTo(16).Within(0.003));
             }
         }
 
@@ -71,28 +68,20 @@ namespace WindowSelector.Tests
                 mock.Mock<IWin32ApiWrapper>()
                     .Setup(
                         api =>
-                            api.SendMessageAsync(hWnd, It.IsAny<uint>(), 1,
-                                It.IsAny<Win32Api.SendMessageDelegate>()))
-                    .Callback(new Action<IntPtr, uint, int, Win32Api.SendMessageDelegate>((handle, msg, wParam, callback) =>
-                    {
-                        callback(handle, msg, UIntPtr.Zero, IntPtr.Zero);
-                    }));
+                            api.SendMessageTimeout(hWnd, It.IsAny<uint>(), 1, It.IsAny<IntPtr>(), It.IsAny<uint>()))
+                    .Returns(IntPtr.Zero);
 
                 mock.Mock<IWin32ApiWrapper>()
                     .Setup(
                         api =>
-                            api.SendMessageAsync(hWnd, It.IsAny<uint>(), 2,
-                                It.IsAny<Win32Api.SendMessageDelegate>()))
-                    .Callback(new Action<IntPtr, uint, int, Win32Api.SendMessageDelegate>((handle, msg, wParam, callback) =>
-                    {
-                        callback(handle, msg, UIntPtr.Zero, tempIcon.Handle);
-                    }));
+                            api.SendMessageTimeout(hWnd, It.IsAny<uint>(), 2, It.IsAny<IntPtr>(), It.IsAny<uint>()))
+                    .Returns(tempIcon.Handle);
                 IconRetriever retriever = mock.Create<IconRetriever>();
                 // Act
                 retriever.LoadIcon(hWnd);
                 // Assert
                 Assert.That(retriever.Icon.Width, Is.EqualTo(tempIcon.Width));
-                Assert.That(retriever.Image.Width, Is.EqualTo(16));
+                Assert.That(retriever.Image.Width, Is.EqualTo(16).Within(0.003));
             }
         }
 

@@ -7,7 +7,7 @@ using WindowSelector.Common.Interfaces;
 using WindowSelector.Plugins.Win32;
 using WindowSelector.Plugins.Win32.Models;
 using WindowSelector.Plugins.Win32.ViewModels;
-using WindowSelector.Tests._Utils;
+using WindowSelector.Tests.Utilities;
 using WindowSelector.Win32;
 
 namespace WindowSelector.Tests.ViewModels

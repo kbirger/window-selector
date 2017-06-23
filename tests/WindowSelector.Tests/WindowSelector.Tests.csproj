@@ -43,8 +43,9 @@
     <Reference Include="AutoMock">
       <HintPath>..\..\packages\AutoMock.1.0.3.2\lib\net40\AutoMock.dll</HintPath>
     </Reference>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
+    <Reference Include="Castle.Core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Castle.Core.4.1.0\lib\net45\Castle.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
@@ -58,19 +59,20 @@
       <HintPath>..\..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Moq">
-      <HintPath>..\..\packages\Moq.4.5.29\lib\net45\Moq.dll</HintPath>
+    <Reference Include="Moq, Version=4.7.49.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Moq.4.7.49\lib\net45\Moq.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NLog.4.4.5\lib\net45\NLog.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.5.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\NUnit.3.5.0\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.7.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\NUnit.3.7.1\lib\net45\nunit.framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
@@ -91,36 +93,26 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="SystemInterface, Version=0.19.0.115, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SystemWrapper.Interfaces.0.19.0.115\lib\net45\SystemInterface.dll</HintPath>
+    <Reference Include="SystemInterface, Version=0.20.0.123, Culture=neutral, PublicKeyToken=fbc3a63dd3cf8960, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SystemWrapper.Interfaces.0.20.0.123\lib\net45\SystemInterface.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsyncImageSourceFixture.cs" />
     <Compile Include="Commands\RelayCommandFixture.cs" />
-    <Compile Include="Configuration\DirtyManagerFixture.cs" />
-    <Compile Include="Configuration\HotkeySettingFixture.cs" />
     <Compile Include="Converters\BoolToConnectionBrushConverterFixture.cs" />
-    <Compile Include="Configuration\ConfigurationProviderFixture.cs" />
-    <Compile Include="Configuration\ConfigurationRootFixture.cs" />
     <Compile Include="Commands\WhiteListItemCommandFixture.cs" />
     <Compile Include="Commands\BlackListItemCommandFixture.cs" />
     <Compile Include="Converters\HotkeyConverterFixture.cs" />
     <Compile Include="Converters\NullToVisibilityConverterFixture.cs" />
-    <Compile Include="Converters\WindowResultThumbnailConverterFixture.cs" />
-    <Compile Include="DirtyHashSetFixture.cs" />
     <Compile Include="ExtensionsFixture.cs" />
     <Compile Include="IconRetrieverFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceUtil.cs" />
     <Compile Include="ViewModels\SettingsViewModelFixture.cs" />
     <Compile Include="ViewModels\NativeWindowResultFixture.cs" />
-    <Compile Include="ViewModels\TabWindowResultFixture.cs" />
     <Compile Include="ViewModels\WindowResultViewModelFixture.cs" />
-    <Compile Include="WindowManagerFixture.cs" />
-    <Compile Include="_Utils\MockExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -147,6 +139,10 @@
       <Project>{EDF7371A-CE7A-475E-844E-2B7D50D6C8F8}</Project>
       <Name>WindowSelector.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WindowSelector.Tests.Utilities\WindowSelector.Tests.Utilities.csproj">
+      <Project>{549d0e4f-a0b3-49de-8921-21efa2e53f78}</Project>
+      <Name>WindowSelector.Tests.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -158,6 +154,9 @@
     <Resource Include="TestIco.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

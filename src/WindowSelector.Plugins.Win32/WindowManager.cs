@@ -4,7 +4,10 @@ using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using WindowSelector.Common;
 using WindowSelector.Common.Configuration;
 using WindowSelector.Common.Interfaces;
@@ -133,9 +136,10 @@ namespace WindowSelector.Plugins.Win32
             try
             {
                 int processId = _win32Api.GetWindowProcess(handle);
-                var proc = Process.GetProcessById(processId);
+                //var proc = Process.GetProcessById(processId);
                 NativeWindowInfo retVal;
-                bool retStatus = TryGetWindowInfo(handle, proc, out retVal, includeHidden, loadIcon);
+                string procName = _win32Api.GetProcessName(processId);
+                bool retStatus = TryGetWindowInfo(handle, processId, procName, out retVal, includeHidden, loadIcon);
                 windowInfo = retVal;
                 return retStatus;
             }
@@ -148,7 +152,7 @@ namespace WindowSelector.Plugins.Win32
         }
 
 
-        private bool TryGetWindowInfo(IntPtr handle, Process owningProcess, out NativeWindowInfo windowInfo, bool includeHidden = false, bool loadIcon = true)
+        private bool TryGetWindowInfo(IntPtr handle, int pid, string pname, out NativeWindowInfo windowInfo, bool includeHidden = false, bool loadIcon = true)
         {
             try
             {
@@ -165,8 +169,8 @@ namespace WindowSelector.Plugins.Win32
                     windowInfo = new NativeWindowInfo()
                     {
                         hWnd = handle,
-                        PID = owningProcess.Id,
-                        ProcessName = owningProcess.ProcessName,
+                        PID = pid,
+                        ProcessName = pname,
                         Wndclass = className,
                         Title = windowTitle,
                         IsWhiteListed = isWhitelisted,
@@ -211,7 +215,7 @@ namespace WindowSelector.Plugins.Win32
                     _win32Api.EnumThreadWindows((uint)thread.Id, delegate(IntPtr wnd, IntPtr param)
                     {
                         NativeWindowInfo windowInfo;
-                        if (TryGetWindowInfo(wnd, proc, out windowInfo, includeHidden: showAll, loadIcon: false)
+                        if (TryGetWindowInfo(wnd, proc.Id, proc.ProcessName, out windowInfo, includeHidden: showAll, loadIcon: false)
                             && (processNameMatches || windowInfo.Title.ContainsCaseInsensitive(searchString)))
                         {
                             windowInfo.Icon.LoadIcon(windowInfo.hWnd);

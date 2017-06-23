@@ -5,7 +5,8 @@ using System.Windows;
 
 namespace WindowSelector.Tests
 {
-    internal static class ResourceUtil
+    // todo: belongs with non cross platform code
+    public static class ResourceUtil
     {
         public static Icon GetIcon()
         {

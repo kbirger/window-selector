@@ -20,15 +20,54 @@ namespace WindowSelector.Win32
         string GetClassName(IntPtr hWnd);
         System.Drawing.Icon GetAppIcon(IntPtr hwnd);
         void SendMessageAsync(IntPtr hWnd, uint Msg, int wParam, Win32Api.SendMessageDelegate lpCallBack);
+
+        /// <summary>
+        /// Sends a message and waits for a response for a specific timeout
+        /// </summary>
+        /// <param name="hWnd">window handle to send message to</param>
+        /// <param name="msg">id of the message</param>
+        /// <param name="wParam">message parameter</param>
+        /// <param name="lParam"></param>
+        /// <param name="timeout">timeout in ms</param>
+        /// <returns>response message value</returns>
+        IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, int wParam, IntPtr lParam, uint timeout);
+
         void CloseWindow(IntPtr hWnd);
         int GetWindowProcess(IntPtr hWnd);
 
         System.Drawing.Icon GetAppClassIcon(IntPtr hWnd);
+
+        string GetProcessName(int pid);
     }
 
     [ExcludeFromCodeCoverage]
     public class Win32ApiWrapper : IWin32ApiWrapper
     {
+        public string GetProcessName(int pid)
+        {
+            IntPtr handle = Win32Api.OpenProcess(Win32Api.ProcessAccessFlags.QueryLimitedInformation, false, pid);
+            if (handle == IntPtr.Zero)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+
+            StringBuilder sb = new StringBuilder(1024);
+            if (Win32Api.GetProcessImageFileName(handle, sb, sb.Capacity) == 0)
+            {
+                throw new Win32Exception(Marshal.GetLastWin32Error());
+            }
+
+            return System.IO.Path.GetFileNameWithoutExtension(sb.ToString());
+        }
+
+        public IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, int wParam, IntPtr lParam, uint timeout)
+        {
+            IntPtr result;
+            Win32Api.SendMessageTimeout(hWnd, msg, wParam, lParam, 0x0002, timeout, out result);
+            // todo: process return code from SendMessageTimeout? According to docs 0 == timeout, but I don't have an exception
+            // to throw for this just yet, and it's not clear that this is important to propagate.
+            return result;
+        }
         public void ShowWindow(IntPtr handle, Win32Api.WindowShowStyle cmdShow)
         {
             if (!Win32Api.ShowWindow(handle, cmdShow))

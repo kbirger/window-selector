@@ -2,7 +2,7 @@
 using System.Windows.Input;
 using NUnit.Framework;
 using WindowSelector.Common.Configuration;
-using WindowSelector.Tests._Utils;
+using WindowSelector.Tests.Utilities;
 using WindowSelector.ViewModels;
 
 namespace WindowSelector.Tests.ViewModels

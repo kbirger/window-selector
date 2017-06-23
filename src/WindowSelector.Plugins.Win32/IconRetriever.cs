@@ -77,10 +77,11 @@ namespace WindowSelector.Plugins.Win32
             Icon = _win32ApiWrapper.GetAppClassIcon(hWnd);
             var nextAttempt = _remaining.Dequeue();
             //_dispatcher.Invoke(
-                //() =>
+            //() =>
             //_win32ApiWrapper.SendMessageAsync(hWnd, Win32Api.WM_GETICON, nextAttempt, del);
-            IntPtr outt;
-            Win32Api.SendMessageTimeout(hWnd, Win32Api.WM_GETICON, nextAttempt, IntPtr.Zero, 0x0002, 50, out outt);
+            //IntPtr outt;
+            //Win32Api.SendMessageTimeout(hWnd, Win32Api.WM_GETICON, nextAttempt, IntPtr.Zero, 0x0002, 50, out outt);
+            IntPtr outt = _win32ApiWrapper.SendMessageTimeout(hWnd, Win32Api.WM_GETICON, nextAttempt, IntPtr.Zero, 50);
             Callback(hWnd, Win32Api.WM_GETICON, UIntPtr.Zero, outt);
             //);
         }
@@ -93,9 +94,10 @@ namespace WindowSelector.Plugins.Win32
                 if (_remaining.Count > 0)
                 {
                     var nextAttempt = _remaining.Dequeue();
-                    IntPtr outt;
+                    //IntPtr outt;
                     //_win32ApiWrapper.SendMessageAsync(hWnd, Win32Api.WM_GETICON, nextAttempt, del);
-                    Win32Api.SendMessageTimeout(hWnd, Win32Api.WM_GETICON, nextAttempt, IntPtr.Zero, 0x0002, 50, out outt);
+                    IntPtr outt = _win32ApiWrapper.SendMessageTimeout(hWnd, Win32Api.WM_GETICON, nextAttempt, IntPtr.Zero, 50);
+
                     Callback(hWnd, Win32Api.WM_GETICON, UIntPtr.Zero, outt);
 
                 }
