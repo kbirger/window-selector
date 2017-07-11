@@ -176,7 +176,14 @@ namespace WindowSelector.Plugins.Win32
                     };
                     if (loadIcon)
                     {
-                        ir.LoadIcon(handle);
+                        if (pname != "ApplicationFrameHost")
+                        {
+                            ir.LoadIcon(handle);
+                        }
+                        else
+                        {
+                            ir.LoadUWPIcon(handle);
+                        }
                     }
                     return true;
                 }
@@ -212,10 +219,10 @@ namespace WindowSelector.Plugins.Win32
                     _win32Api.EnumThreadWindows((uint)thread.Id, delegate(IntPtr wnd, IntPtr param)
                     {
                         NativeWindowInfo windowInfo;
-                        if (TryGetWindowInfo(wnd, proc.Id, proc.ProcessName, out windowInfo, includeHidden: showAll, loadIcon: false)
+                        if (TryGetWindowInfo(wnd, proc.Id, proc.ProcessName, out windowInfo, includeHidden: showAll, loadIcon: true)
                             && (processNameMatches || windowInfo.Title.ContainsCaseInsensitive(searchString)))
                         {
-                            windowInfo.Icon.LoadIcon(windowInfo.hWnd);
+                            //windowInfo.Icon.LoadIcon(windowInfo.hWnd);
                             ret.Add(windowInfo);
                         }
                         return true;

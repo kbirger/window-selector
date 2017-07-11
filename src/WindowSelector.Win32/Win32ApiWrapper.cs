@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
@@ -38,6 +39,8 @@ namespace WindowSelector.Win32
         System.Drawing.Icon GetAppClassIcon(IntPtr hWnd);
 
         string GetProcessName(int pid);
+
+        List<IntPtr> GetChildWindows(IntPtr parent);
     }
 
     [ExcludeFromCodeCoverage]
@@ -46,18 +49,25 @@ namespace WindowSelector.Win32
         public string GetProcessName(int pid)
         {
             IntPtr handle = Win32Api.OpenProcess(Win32Api.ProcessAccessFlags.QueryLimitedInformation, false, pid);
-            if (handle == IntPtr.Zero)
+            try
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
-            }
+                if (handle == IntPtr.Zero)
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                }
 
-            StringBuilder sb = new StringBuilder(1024);
-            if (Win32Api.GetProcessImageFileName(handle, sb, sb.Capacity) == 0)
+                StringBuilder sb = new StringBuilder(1024);
+                if (Win32Api.GetProcessImageFileName(handle, sb, sb.Capacity) == 0)
+                {
+                    throw new Win32Exception(Marshal.GetLastWin32Error());
+                }
+
+                return System.IO.Path.GetFileNameWithoutExtension(sb.ToString());
+            }
+            finally
             {
-                throw new Win32Exception(Marshal.GetLastWin32Error());
+                Win32Api.CloseHandle(handle);
             }
-
-            return System.IO.Path.GetFileNameWithoutExtension(sb.ToString());
         }
 
         public IntPtr SendMessageTimeout(IntPtr hWnd, uint msg, int wParam, IntPtr lParam, uint timeout)
@@ -227,6 +237,36 @@ namespace WindowSelector.Win32
             {
                 throw new Win32Exception(Marshal.GetLastWin32Error());
             }
+        }
+
+        public List<IntPtr> GetChildWindows(IntPtr parent)
+        {
+            List<IntPtr> result = new List<IntPtr>();
+            GCHandle listHandle = GCHandle.Alloc(result);
+            try
+            {
+                Win32Api.EnumWindowProc childProc = new Win32Api.EnumWindowProc(EnumWindow);
+                Win32Api.EnumChildWindows(parent, childProc, GCHandle.ToIntPtr(listHandle));
+            }
+            finally
+            {
+                if (listHandle.IsAllocated)
+                    listHandle.Free();
+            }
+            return result;
+        }
+
+        private static bool EnumWindow(IntPtr handle, IntPtr pointer)
+        {
+            GCHandle gch = GCHandle.FromIntPtr(pointer);
+            List<IntPtr> list = gch.Target as List<IntPtr>;
+            if (list == null)
+            {
+                throw new InvalidCastException("GCHandle Target could not be cast as List<IntPtr>");
+            }
+            list.Add(handle);
+            //  You can modify this to check to see if you want to cancel the operation, then return a null here
+            return true;
         }
 
     }

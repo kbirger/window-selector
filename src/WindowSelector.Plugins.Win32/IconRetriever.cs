@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using WindowSelector.Plugins.Win32.Properties;
 using WindowSelector.Win32;
 
@@ -120,5 +124,51 @@ namespace WindowSelector.Plugins.Win32
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+        private Process GetUWPAppHost(int pid, IntPtr handle)
+        {
+            
+            var children = _win32ApiWrapper.GetChildWindows(handle);
+            foreach (var childHwnd in children)
+            {
+                int childPid = _win32ApiWrapper.GetWindowProcess(childHwnd);
+                if (childPid != pid)
+                {
+                    // here we are
+                    Process childProc = Process.GetProcessById(childPid);
+                    return childProc;
+                }
+            }
+
+            throw new Exception("No host process found for supposed UWP app.");
+        }
+
+        public void LoadUWPIcon(IntPtr handle)
+        {
+            int pid = _win32ApiWrapper.GetWindowProcess(handle);
+            try
+            {
+                var hostProcess = GetUWPAppHost(pid, handle);
+                var package = AppxPackage.FromProcess(hostProcess);
+
+                BitmapImage bmp = new BitmapImage();
+                bmp.BeginInit();
+                string finalFileName = Path.GetFileNameWithoutExtension(package.Logo) + ".scale-200" +
+                                   Path.GetExtension(package.Logo);
+                string finalPath = Path.Combine(Path.GetDirectoryName(package.Logo), finalFileName);
+                bmp.UriSource = new Uri(Path.Combine(package.Path, finalPath));
+                bmp.EndInit();
+                bmp.Freeze();
+
+                Image = bmp;
+            }
+            catch
+            {
+                
+            }
+        }
     }
+
+
 }

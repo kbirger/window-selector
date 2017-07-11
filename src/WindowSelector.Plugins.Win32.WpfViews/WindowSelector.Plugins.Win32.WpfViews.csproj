@@ -36,11 +36,6 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -50,17 +45,9 @@
     <Compile Include="WpfViewPlugin.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WindowSelector.Common\WindowSelector.Common.csproj">
-      <Project>{EDF7371A-CE7A-475E-844E-2B7D50D6C8F8}</Project>
-      <Name>WindowSelector.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WindowSelector.Common.WPF\WindowSelector.Common.WPF.csproj">
       <Project>{ADB2816F-057E-4520-88B5-108C618266E9}</Project>
       <Name>WindowSelector.Common.WPF</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WindowSelector.Plugins.Win32\WindowSelector.Plugins.Win32.csproj">
-      <Project>{BFEF9D88-A228-4F00-9B81-B5049C4DB67A}</Project>
-      <Name>WindowSelector.Plugins.Win32</Name>
     </ProjectReference>
     <ProjectReference Include="..\WindowSelector.Win32\WindowSelector.Win32.csproj">
       <Project>{BDF635B2-0165-4DD1-96CF-39FD1E1A428C}</Project>

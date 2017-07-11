@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
@@ -127,7 +128,7 @@ namespace WindowSelector.Win32
         ///     meaningful error code to be returned to the caller of <see cref="EnumWindows" />.
         /// </returns>
         /// <remarks>
-        ///     The <see cref="EnumWindows" /> function does not enumerate child windows, with the exception of a few
+        ///     The <see cref="EnumWindows" /> function does not enumerate   windows, with the exception of a few
         ///     top-level windows owned by the system that have the WS_CHILD style.
         ///     <para />
         ///     This function is more reliable than calling the
@@ -515,11 +516,20 @@ namespace WindowSelector.Win32
 
         #endregion
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern int GetWindowThreadProcessId(IntPtr handle, out uint processId);
+
+        public delegate bool EnumWindowProc(IntPtr hwnd, IntPtr lParam);
+        [DllImport("user32.Dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool EnumChildWindows(IntPtr parentHandle, EnumWindowProc callback, IntPtr lParam);
+
+
         [DllImport("kernel32.dll", SetLastError = true)]
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
         [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
-        static extern bool CloseHandle(IntPtr hObject);
+        public static extern bool CloseHandle(IntPtr hObject);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, int processId);
