@@ -20,10 +20,24 @@ namespace WindowSelector.IoC
         {
             var signalRConfig = new HubConfiguration();
             var builder = new ContainerBuilder();
-
             var plugs = new PluginRepository();
             var cat = plugs.Initialize();
 
+            // looks up assemblies and their dependencies from 
+            // <probing> element in config.
+            // also consider:
+            /* AppDomain currentDomain = AppDomain.CurrentDomain;
+            currentDomain.AssemblyResolve += new ResolveEventHandler(LoadFromSameFolder);
+
+            static Assembly LoadFromSameFolder(object sender, ResolveEventArgs args)
+            {
+                string folderPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string assemblyPath = Path.Combine(folderPath, new AssemblyName(args.Name).Name + ".dll");
+                if (!File.Exists(assemblyPath)) return null;
+                Assembly assembly = Assembly.LoadFrom(assemblyPath);
+                return assembly;
+            }*/
+            // https://stackoverflow.com/questions/1373100/how-to-add-folder-to-assembly-search-path-at-runtime-in-net
             builder.RegisterComposablePartCatalog(cat,
                 //new TypedService(typeof(IWindowResultProvider)),
                 new TypedService(typeof(IPlugin)),
