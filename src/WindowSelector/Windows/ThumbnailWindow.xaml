@@ -23,12 +23,12 @@
         <windows:ResultDataTemplateSelector x:Key="ResultDataTemplateSelector"></windows:ResultDataTemplateSelector>
     </Window.Resources>
     <Grid Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}}" >
-        <Border CornerRadius="10" Background="#aa000000" Margin="10">
+        <Border CornerRadius="4" Background="#aa000000" Margin="10">
             <Border.Effect>
-                <BlurEffect Radius="5"></BlurEffect>
+                <BlurEffect Radius="0"></BlurEffect>
             </Border.Effect>
         </Border>
-        <Border CornerRadius="10" Background="Transparent" Margin="15">
+        <Border CornerRadius="100" Background="Transparent" Margin="15">
 
             <Grid Margin="5" Background="#00000000">
                 <Grid.Effect>

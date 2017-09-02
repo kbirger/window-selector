@@ -13,21 +13,21 @@ namespace WindowSelector.Plugins.GoogleSearchSuggestions.ViewModels
         {
             if (suggestion.IsQuery)
             {
-                Label = "Search for: ";
-                DisplayText = suggestion.Term;
+                DisplayText = "Search for: " + suggestion.Term;
                 Details = "https://www.google.com/search?q=" + WebUtility.UrlEncode(suggestion.Term);
+                Label = Details;
             }
             else if (string.IsNullOrWhiteSpace(suggestion.Url))
             {
-                Label = "Visit: ";
-                DisplayText = suggestion.Description;
+                DisplayText = "Visit: " + suggestion.Description;
                 Details = suggestion.Term;
+                Label = Details;
             }
             else
             {
-                Label = "Visit";
-                DisplayText = (!string.IsNullOrWhiteSpace(suggestion.Description) ? suggestion.Description: suggestion.Url);
+                DisplayText = "Visit : " + (!string.IsNullOrWhiteSpace(suggestion.Description) ? suggestion.Description : suggestion.Url);
                 Details = suggestion.Url;
+                Label = Details;
             }
             _value = suggestion;
         }

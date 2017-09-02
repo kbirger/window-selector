@@ -7,6 +7,7 @@ using NHotkey;
 using NHotkey.Wpf;
 using WindowSelector.Common;
 using WindowSelector.Common.Configuration;
+using WindowSelector.Common.ViewModels;
 using WindowSelector.ViewModels;
 
 namespace WindowSelector.Windows
@@ -27,6 +28,7 @@ namespace WindowSelector.Windows
         {
             InitializeComponent();
             _thumbWindow = thumbnailWindow;
+            
             _settingsWindow = settingsWindow;
             //_thumbWindow.DataContext = FoundWindows;
             _configurationProvider = configurationProvider;
@@ -43,6 +45,12 @@ namespace WindowSelector.Windows
             ViewModel.WindowClosed += ViewModelOnWindowClosed;
             ViewModel.WindowSelected += ViewModelOnWindowSelected;
             DataContext = ViewModel;
+            _thumbWindow.InputBindings.Add(new MouseBinding()
+            {
+                MouseAction = MouseAction.LeftClick,
+                Command = ViewModel.ItemSelectCommand
+
+            });
             //FoundWindows.Items.SortDescriptions.Add(new SortDescription("Priority", ListSortDirection.Descending));
             //FoundWindows.Items.SortDescriptions.Add(new SortDescription("DisplayText", ListSortDirection.Descending));
             //var bindings = Resources["InputBindings"] as ICollection;
@@ -122,6 +130,7 @@ namespace WindowSelector.Windows
         {
             Hide();
             ViewModel.Reset();
+            ViewModel.IsHighlighting = false;
             _thumbWindow.Hide();
             _stayOpen = false;
             GC.Collect();
@@ -136,7 +145,7 @@ namespace WindowSelector.Windows
             CenterThumbnail();
         }
 
-        public void Input_KeyPress(object sender, KeyEventArgs e)
+        public void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key.InRange(Key.A, Key.Z) || e.Key.InRange(Key.D0, Key.D9))
             {
@@ -263,6 +272,42 @@ namespace WindowSelector.Windows
         private void Close_OnExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             DoHide();
+        }
+
+        private void OnKeyUp(object sender, KeyEventArgs e)
+        {
+            
+        }
+
+        private void MainWindow_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+
+            if (e.Key.In(Key.LeftCtrl, Key.RightCtrl))
+            {
+                ViewModel.IsHighlighting = true;
+            }
+            else if(e.Key.InRange(Key.D0, Key.D9) && 
+                (e.KeyboardDevice.IsKeyDown(Key.LeftCtrl) || e.KeyboardDevice.IsKeyDown(Key.RightCtrl) ))
+            {
+                int index = ((int) e.Key - (int) Key.D0) - 1;
+                if (index == -1)
+                {
+                    index = 10;
+                }
+                if (index >= this.FoundWindows.Items.Count) return;
+                ViewModel.SelectedItem = this.FoundWindows.Items[index] as WindowResult;
+                ViewModel.ItemSelectCommand.Execute(false);
+                ViewModel.IsHighlighting = false;
+            }
+
+        }
+
+        private void MainWindow_OnPreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key.In(Key.LeftCtrl, Key.RightCtrl))
+            {
+                ViewModel.IsHighlighting = false;
+            }
         }
     }
 }

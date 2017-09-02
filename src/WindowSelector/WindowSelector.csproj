@@ -142,6 +142,8 @@
     <Compile Include="Converters\BoolToConnectionBrushConverter.cs" />
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="Converters\HotkeyConverter.cs" />
+    <Compile Include="Converters\IndexWithinRangeConverter.cs" />
+    <Compile Include="Converters\ListViewItemIndexConverter.cs" />
     <Compile Include="InputBindingsBehavior.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="IoC\IoCSetup.cs" />

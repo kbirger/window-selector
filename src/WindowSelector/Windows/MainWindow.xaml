@@ -7,6 +7,7 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:viewModels11="clr-namespace:WindowSelector.Common.ViewModels;assembly=WindowSelector.Common"
+        xmlns:windows="clr-namespace:WindowSelector.Windows"
         Title="MainWindow" Height="350" Width="525" Deactivated="MainWindow_OnDeactivated" 
         WindowStyle="None" 
         Topmost="True"
@@ -15,59 +16,45 @@
         AllowsTransparency="True"
         ResizeMode="CanResizeWithGrip"
         BorderThickness="0"
-        KeyDown="Input_KeyPress"
+        KeyDown="OnKeyDown"
+        PreviewKeyDown="MainWindow_OnPreviewKeyDown"
+        PreviewKeyUp="MainWindow_OnPreviewKeyUp"
         Name="Window"
         windowSelector:InputBindingsBehavior.TakesInputBindingPrecedence="True"
         >
     <Window.Resources>
-        <Style x:Key="myHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
-            <Setter Property="Visibility" Value="Collapsed" />
-        </Style>
         <Style TargetType="ListViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"></BooleanToVisibilityConverter>
+        <converters:IndexWithinRangeConverter x:Key="IndexWithinRangeConverter"></converters:IndexWithinRangeConverter>
+        <converters:ListViewItemIndexConverter x:Key="ListViewItemIndexConverter"></converters:ListViewItemIndexConverter>
         <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
         <converters:BoolToConnectionBrushConverter x:Key="BoolToConnectionBrushConverter" TrueBrush="LimeGreen" FalseBrush="Red" />
         <converters:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
         <commands:WhiteListItemCommand x:Key="WhiteListItemCommand"></commands:WhiteListItemCommand>
         <commands:BlackListItemCommand x:Key="BlackListItemCommand"></commands:BlackListItemCommand>
-        <!--<InputBindingCollection x:Key="InputBindings">
-            <KeyBinding Key="Escape" Command="Close"></KeyBinding>
-            <KeyBinding Key="Down" Command="{Binding ItemDownCommand}" />
-            <KeyBinding Key="Up" Command="{Binding ItemUpCommand}" />
-            <KeyBinding Key="Enter" Command="{Binding ItemSelectCommand}">
-                <KeyBinding.CommandParameter>
-                    <system:Boolean>False</system:Boolean>
-                </KeyBinding.CommandParameter>
-            </KeyBinding>
-            <KeyBinding Key="Enter" Modifiers="Shift" Command="{Binding ItemSelectCommand}">
-                <KeyBinding.CommandParameter>
-                    <system:Boolean>True</system:Boolean>
-                </KeyBinding.CommandParameter>
-            </KeyBinding>
-            <KeyBinding Key="{Binding MinimizeKey.Key}" Modifiers="{Binding MinimizeKey.Modifiers}" Command="{Binding ItemMinimizeCommand}" />
-            <KeyBinding Key="Delete" Modifiers="Alt" Command="{Binding ItemCloseCommand}" />
-        </InputBindingCollection>-->
     </Window.Resources>
     <Window.CommandBindings>
         <CommandBinding Command="Close" Executed="Close_OnExecuted"></CommandBinding>
     </Window.CommandBindings>
     <Window.InputBindings>
-            <KeyBinding Key="Escape" Command="Close"></KeyBinding>
-            <KeyBinding Key="Down" Command="{Binding ItemDownCommand}" />
-            <KeyBinding Key="Up" Command="{Binding ItemUpCommand}" />
-            <KeyBinding Key="Enter" Command="{Binding ItemSelectCommand}">
-                <KeyBinding.CommandParameter>
-                    <system:Boolean>False</system:Boolean>
-                </KeyBinding.CommandParameter>
-            </KeyBinding>
-            <KeyBinding Key="Enter" Modifiers="Shift" Command="{Binding ItemSelectCommand}">
-                <KeyBinding.CommandParameter>
-                    <system:Boolean>True</system:Boolean>
-                </KeyBinding.CommandParameter>
-            </KeyBinding>
-            <KeyBinding Key="{Binding MinimizeKey.Key}" Modifiers="{Binding MinimizeKey.Modifiers}" Command="{Binding ItemMinimizeCommand}" />
-            <KeyBinding Key="{Binding CloseKey.Key}" Modifiers="{Binding CloseKey.Modifiers}" Command="{Binding ItemCloseCommand}" />
+        <KeyBinding Key="LeftAlt" Command="{Binding HighlightCommand}"></KeyBinding>
+        <KeyBinding Key="Escape" Command="Close"></KeyBinding>
+        <KeyBinding Key="Down" Command="{Binding ItemDownCommand}" />
+        <KeyBinding Key="Up" Command="{Binding ItemUpCommand}" />
+        <KeyBinding Key="Enter" Command="{Binding ItemSelectCommand}">
+            <KeyBinding.CommandParameter>
+                <system:Boolean>False</system:Boolean>
+            </KeyBinding.CommandParameter>
+        </KeyBinding>
+        <KeyBinding Key="Enter" Modifiers="Shift" Command="{Binding ItemSelectCommand}">
+            <KeyBinding.CommandParameter>
+                <system:Boolean>True</system:Boolean>
+            </KeyBinding.CommandParameter>
+        </KeyBinding>
+        <KeyBinding Key="{Binding MinimizeKey.Key}" Modifiers="{Binding MinimizeKey.Modifiers}" Command="{Binding ItemMinimizeCommand}" />
+        <KeyBinding Key="{Binding CloseKey.Key}" Modifiers="{Binding CloseKey.Modifiers}" Command="{Binding ItemCloseCommand}" />
     </Window.InputBindings>
     <Grid>
         <tb:TaskbarIcon
@@ -147,35 +134,37 @@
                             </Style.Triggers>
                         </Style>
                     </ListView.Resources>
-                    <ListView.View>
-                        <GridView ColumnHeaderContainerStyle="{StaticResource myHeaderStyle}">
-                            <GridViewColumn DisplayMemberBinding="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}, Mode=OneWay}">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Image Width="16" Height="16" Source="{Binding}" Margin="0 0 5 0" Opacity="1"></Image>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn DisplayMemberBinding="{Binding Label, Mode=OneWay}"  />
-                            <GridViewColumn DisplayMemberBinding="{Binding DisplayText, Mode=OneWay}"  />
-                            <GridViewColumn DisplayMemberBinding="{Binding Details, Mode=OneWay}" Width="Auto" />
-                        </GridView>
-                    </ListView.View>
                     <ListView.ItemTemplate>
                         <DataTemplate DataType="{x:Type viewModels11:WindowResult}">
-                            <Grid Margin="0 0 5 0">
+                            <Grid Margin="5 5 0 5">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="38"></ColumnDefinition>
-                                    <ColumnDefinition Width="80"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                    <!--<ColumnDefinition Width="80"></ColumnDefinition>-->
                                     <ColumnDefinition Width="*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
-                            <!--<StackPanel Orientation="Horizontal">-->
-                                <Image Source="{Binding Icon.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}" Width="32" SnapsToDevicePixels="True" Opacity="1"></Image>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <!--<StackPanel Orientation="Horizontal">-->
+                                <Grid Grid.RowSpan="2" Margin="0 0 8 0">
+                                    <Image Source="{Binding Icon.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}" 
+                                           Width="32" SnapsToDevicePixels="True"></Image>
+                                    <Grid Visibility="{Binding RelativeSource={RelativeSource AncestorType=windows:MainWindow}, Path=ViewModel.IsHighlighting, Converter={StaticResource BooleanToVisibilityConverter}, Mode=OneWay}">
+                                        <Border CornerRadius="2" BorderThickness="1" BorderBrush="White" Width="18" Height="18" Background="Black"
+                                           Visibility="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource IndexWithinRangeConverter}, ConverterParameter=9}">
+                                            <TextBlock 
+                                                TextAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                FontSize="14"
+                                                Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListViewItem}}, Converter={StaticResource ListViewItemIndexConverter}, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        </Border>
+                                    </Grid>
+                                </Grid>
 
-                                <TextBlock Grid.Column="1" FontSize="14" Text="{Binding Label, Mode=OneWay}" Margin="5 0 0 0" FontWeight="Bold" VerticalAlignment="Center"/>
-                                <TextBlock Grid.Column="2" FontSize="14" Text="{Binding DisplayText, Mode=OneWay}" VerticalAlignment="Center"></TextBlock>
-                                    <!--<Run Text="{Binding Details, Mode=OneWay}" Foreground="DimGray" FontSize="10"></Run>-->
-                            <!--</StackPanel>-->
+                                <TextBlock Grid.Column="1" FontSize="14" Text="{Binding DisplayText, Mode=OneWay}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" FontWeight="SemiBold"></TextBlock>
+                                <TextBlock Grid.Column="1" Grid.Row="1" FontSize="10" Text="{Binding Label, Mode=OneWay}" TextTrimming="CharacterEllipsis" Margin="5 0 0 0" FontWeight="Normal" FontStyle="Italic" VerticalAlignment="Center" Foreground="LightGray" />
                             </Grid>
 
                         </DataTemplate>
@@ -192,7 +181,7 @@
                     Grid.ColumnSpan="2" 
                     Grid.Row="1" 
                     x:Name="Input" 
-                    TextChanged="Input_OnTextChanged">                        
+                    TextChanged="Input_OnTextChanged">
                 </TextBox>
                 <!--<Rectangle Fill="Red" Grid.Column="1"></Rectangle>-->
                 <!--<windowSelector:Thumbnail Width="300" Visibility="{Binding ElementName=FoundWindows, Path=SelectedItem, Converter={StaticResource NullToVisibilityConverter}}"  Grid.Column="1" Source="{Binding ElementName=FoundWindows, Path=SelectedItem.hWnd}" ></windowSelector:Thumbnail>-->
@@ -230,34 +219,3 @@
         </Border>
     </Grid>
 </Window>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

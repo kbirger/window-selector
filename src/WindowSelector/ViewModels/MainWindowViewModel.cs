@@ -60,6 +60,10 @@ namespace WindowSelector.ViewModels
 
         private void InitializeCommands()
         {
+            HighlightCommand = new RelayCommand((o) =>
+            {
+                IsHighlighting = true;
+            });
             ItemDownCommand = new RelayCommand((o) =>
             {
                 if (Results.Count == 0) return;
@@ -103,6 +107,17 @@ namespace WindowSelector.ViewModels
                 
             });
         }
+
+        private bool _isHighlighting = false;
+
+        public bool IsHighlighting
+        {
+            get { return _isHighlighting; }
+            set { _isHighlighting = value; OnPropertyChanged(); }
+            
+        }
+
+        public ICommand HighlightCommand { get; set; }
 
         private void OnConfigurationUpdated(object sender, ConfigurationProvider.ConfigurationUpdateEventArgs args)
         {

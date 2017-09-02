@@ -9,7 +9,7 @@ namespace WindowSelector.Common.Interfaces
     public interface IRecentWindowRepository
     {
         // todo: make this a resultwriter interface
-        Task<IEnumerable<WindowResult>> GetRecentWindows(int count);
+        Task<IEnumerable<WindowResult>> GetRecentWindows(int maxWindows);
 
         // todo: hide this because intpr is an implementation detail and os specific
         void Push(IntPtr windowResult);

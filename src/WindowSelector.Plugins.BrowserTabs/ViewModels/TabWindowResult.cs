@@ -61,7 +61,7 @@ namespace WindowSelector.Plugins.BrowserTabs.ViewModels
             
             // set properties
             DisplayText = data.Title;
-            Label = "TAB";
+            Label = data.Url;
             Details = data.Url;
             try
             {

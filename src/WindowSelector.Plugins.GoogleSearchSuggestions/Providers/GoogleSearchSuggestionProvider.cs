@@ -21,13 +21,14 @@ namespace WindowSelector.Plugins.GoogleSearchSuggestions.Providers
 
         public async Task<IEnumerable<WindowResult>> GetResultsAsync(string keyword, string query, CancellationToken cancellationToken, SearchResultsWriter writer)
         {
+            writer.AddResults(new List<WindowResult> { _resultFactoryFunc(new GoogleSearchSuggestion(query, "", null, "QUERY")) });
+
             var responseString = 
                 await
                     ("http://suggestqueries.google.com/complete/search?client=chrome&hl=en&q=" + query).GetStringAsync(
                         cancellationToken);
             var response = JsonConvert.DeserializeObject<GoogleSearchSuggestionResponse>(responseString);
             List<WindowResult> results = new List<WindowResult>(response.Suggestions.Length);
-            writer.AddResults(new List<WindowResult> { _resultFactoryFunc(new GoogleSearchSuggestion(query, "", null, "QUERY")) });
             for (int i = 0; i < response.Suggestions.Length; i++)
             {
                 results.Add(

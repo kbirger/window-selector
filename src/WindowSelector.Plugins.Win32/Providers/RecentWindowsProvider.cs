@@ -73,16 +73,16 @@ using WindowSelector.Plugins.Win32.ViewModels;
             }
             private readonly ConcurrentDictionary<IntPtr, Record> _store = new ConcurrentDictionary<IntPtr, Record>();
 
-            public Task<IEnumerable<WindowResult>> GetRecentWindows(int i)
+            public Task<IEnumerable<WindowResult>> GetRecentWindows(int maxWindows)
             {
                 var orderedWindows = _store
                     .OrderByDescending((p) => p.Value.LastModified)
                     .Skip(1)
                     .Select(p => p.Key);
-                List<WindowResult> results = new List<WindowResult>(i);
+                List<WindowResult> results = new List<WindowResult>(maxWindows);
                 foreach (var handle in orderedWindows)
                 {
-                    if (results.Count == i)
+                    if (results.Count == maxWindows)
                     {
                         break;
                     }
