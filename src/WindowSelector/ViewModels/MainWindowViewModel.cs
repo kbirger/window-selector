@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -220,7 +221,7 @@ namespace WindowSelector.ViewModels
             //Update(null, NotifyCollectionChangedAction.Reset);
         }
 
-        public async Task Search(string search, bool showAll)
+        public async Task Search(string search, IEnumerable<string> commands)
         {
             if (string.IsNullOrWhiteSpace(search))
             {
@@ -230,7 +231,7 @@ namespace WindowSelector.ViewModels
 
             // wait for new results to come in before updating
             // this is to prevent extra flicker
-            var newResults = await _windowResultViewFactory().Search(search);
+            var newResults = await _windowResultViewFactory().Search(search, commands);
             // once the new results are in, cancel old ones to conserve resources
             Results?.Cancel();
             Results = newResults;

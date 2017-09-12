@@ -130,6 +130,7 @@ namespace WindowSelector.Windows
         {
             Hide();
             ViewModel.Reset();
+            Input.Reset();
             ViewModel.IsHighlighting = false;
             _thumbWindow.Hide();
             _stayOpen = false;
@@ -165,8 +166,8 @@ namespace WindowSelector.Windows
                 return;
             }
 
-            string search = Input.Text;
-            ViewModel.Search(search, _stayOpen);
+            string search =  Input.Text;
+            ViewModel.Search(search, new[] {Input.ActiveCommand?.Alias});
         }
 
         private void MainWindow_OnDeactivated(object sender, EventArgs e)
@@ -246,7 +247,7 @@ namespace WindowSelector.Windows
         {
             if (Input.Text.Length > 0)
             {
-                Input.Text = "";
+                Input.Reset();
             }
             else
             {

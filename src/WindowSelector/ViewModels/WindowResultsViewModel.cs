@@ -66,16 +66,17 @@ namespace WindowSelector.ViewModels
             return this;
         }
 
-        public Task<WindowResultsViewModel> Search(string search)
+        public Task<WindowResultsViewModel> Search(string search, IEnumerable<string> commands)
         {
             if (_searched)
             {
                 throw new InvalidOperationException("Cannot search more than once");
             }
             _searched = true;
-            var rx = @"^([^\s])(?= )";
-            var keyword = Regex.Match(search, rx).Value;
-            var query = Regex.Replace(search, rx, "").Trim();
+            //var rx = @"^([^\s])(?= )";
+            //var keyword = Regex.Match(search, rx).Value;
+            var keyword = commands.FirstOrDefault();
+            var query = search.Trim();
             if (string.IsNullOrWhiteSpace(query))
             {
                 return Task.FromResult(this);

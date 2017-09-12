@@ -1,0 +1,269 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:WindowSelector"
+    xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:controls="clr-namespace:WindowSelector.Controls">
+    <!--Control colors.-->
+    <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
+    <Color x:Key="DisabledControlDarkColor">#FFA5ABC9</Color>
+    <Color x:Key="EnabledControlHighlightColor">#FF2B2B2B</Color>
+    <Color x:Key="ActiveControlColor">#FF111111</Color>
+    
+    <SolidColorBrush x:Key="EnabledControlHighlightBrush">#FF2B2B2B</SolidColorBrush>
+    <SolidColorBrush x:Key="EnabledControlHighlightTextBrush">#FF2B2B2B</SolidColorBrush>
+
+    <Color x:Key="ActiveBorderColor">#FFAAAAAA</Color>
+    <SolidColorBrush x:Key="ActiveBorderBrush" Color="{StaticResource ActiveBorderColor}"/>
+
+    <Color x:Key="ControlColor">#FF111111</Color>
+    <SolidColorBrush x:Key="ControlBrush" Color="{StaticResource ControlColor}" />
+
+    <Color x:Key="ControlTextColor">#FFCCCCCC</Color>
+    <SolidColorBrush x:Key="ControlTextBrush" Color="{StaticResource ControlTextColor}" />
+
+    <Color x:Key="GrayTextColor">#FF666666</Color>
+    <SolidColorBrush x:Key="GrayTextBrush" Color="{StaticResource GrayTextColor}" />
+
+    <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+        <Grid Margin="{TemplateBinding Margin}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <Storyboard>
+                            <ColorAnimation Duration="0:0:.2" Storyboard.TargetName="Border" Storyboard.TargetProperty="Background.Color" />
+                            <DoubleAnimation Duration="0:0:.2" Storyboard.TargetName="Bar"  Storyboard.TargetProperty="Opacity"/>
+
+                        </Storyboard>
+                    </VisualState>
+                    <VisualState x:Name="Disabled" />
+
+                    <VisualState x:Name="ReadOnly" />
+
+
+                    <VisualState x:Name="MouseOver" >
+                        <Storyboard>
+                            <ColorAnimation Duration="0:0:.2" 
+                                            Storyboard.TargetName="Border" 
+                                            Storyboard.TargetProperty="Background.Color" 
+                                            To="{StaticResource EnabledControlHighlightColor}" />
+                            <DoubleAnimation Duration="0:0:.2" Storyboard.TargetName="Bar"  Storyboard.TargetProperty="Opacity" To="0.0" />
+                        </Storyboard>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+            <Border x:Name="Border" 
+              CornerRadius="1">
+                <Border.Background>
+                    <SolidColorBrush Color="{StaticResource ActiveControlColor}"/>
+                </Border.Background>
+            </Border>
+            <Border x:Name="Bar"
+                BorderThickness="0 0 1 0" 
+                Opacity=".3"
+                Margin="0 1.5"
+                BorderBrush="{TemplateBinding Foreground}" />
+        </Grid>        
+        <ControlTemplate.Triggers>
+            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+            </Trigger>
+            <Trigger Property="ToggleButton.IsChecked" Value="true">
+                <Setter TargetName="Border" Property="Background" Value="{StaticResource EnabledControlHighlightBrush}" />
+                <Setter TargetName="Bar" Property="BorderThickness" Value="0" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Border" Property="Background">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource DisabledControlLightColor}"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter TargetName="Border" Property="BorderBrush">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource DisabledControlDarkColor}"/>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Foreground">
+                    <Setter.Value>
+                        <SolidColorBrush Color="{StaticResource GrayTextColor}"></SolidColorBrush>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="CommandTextBoxSelectorStyle" TargetType="ComboBox">
+        <Setter Property="SnapsToDevicePixels" Value="true"/>
+        <Setter Property="OverridesDefaultStyle" Value="true"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+
+        <!--<Setter Property="MinWidth" Value="120"/>-->
+        <!--<Setter Property="MinHeight" Value="20"/>-->
+        
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="controls:CommandDescription">
+                    <TextBlock>
+                        <Run Text="{Binding Alias, StringFormat='({0})'}"/>
+                        <Run Text="{Binding Text}"></Run>
+                    </TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton 
+                            Name="ToggleButton" 
+                            Template="{StaticResource ComboBoxToggleButton}" 
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Background="{TemplateBinding Background}"
+                            ClickMode="Press">
+                        </ToggleButton>
+                        <ContentPresenter
+                            Name="ContentSite"
+                            IsHitTestVisible="False" 
+                            Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="5 0 10 0"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left" />
+                        <Popup 
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True" 
+                            Focusable="False"
+                            PopupAnimation="Slide">
+                            <Grid 
+                              Name="DropDown" 
+                              SnapsToDevicePixels="True"                
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                <Border 
+                                    x:Name="DropDownBorder"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"/>
+                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    <!--<ContentPresenter KeyboardNavigation.DirectionalNavigation="Contained" ContentSource="Items">
+                                        <ContentPresenter.ContentTemplate></ContentPresenter.ContentTemplate>
+                                    </ContentPresenter>-->
+                                </ScrollViewer>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasItems" Value="false">
+                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource GrayTextBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsGrouping" Value="true">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </Trigger>
+                        <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                            <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="2"/>
+                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="{x:Type controls:CommandTextBox}">
+        <Setter Property="BorderBrush" Value="{StaticResource ActiveBorderBrush}"/>
+        <Setter Property="Background" Value="{StaticResource ControlBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource ControlTextBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
+        <Setter Property="Padding" Value="1"></Setter>
+        <Setter Property="AllowDrop" Value="True"></Setter>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type controls:CommandTextBox}">
+                    <Border Name="Border"
+                        CornerRadius="0"
+                        Padding="{TemplateBinding Padding}"
+                        BorderThickness="{TemplateBinding BorderThickness}" 
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}">
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledControlLightColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="ReadOnly">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border"
+                                                Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource DisabledControlDarkColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Border 
+                                SnapsToDevicePixels="True"
+                                Background="Transparent" 
+                                BorderThickness="0 0 0 0"
+                                Padding="0 0 5 0 "
+                                BorderBrush="{TemplateBinding Foreground}" 
+                                Visibility="{TemplateBinding CommandAreaVisibility}">
+                                <ComboBox FontSize="{TemplateBinding FontSize}" FontWeight="SemiBold" VerticalAlignment="Center"
+                                          Style="{StaticResource CommandTextBoxSelectorStyle}"
+                                          Background="{TemplateBinding Background}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          SelectedItem="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActiveCommand, Mode=TwoWay}"
+                                          ItemsSource="{TemplateBinding Mappings}"
+                                          x:Name="PART_selector">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate DataType="controls:CommandDescription">
+                                            <TextBlock Text="{Binding Text}"></TextBlock>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                    <ComboBox.Resources>
+                                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="{StaticResource EnabledControlHighlightColor}"/>
+                                        <!--<SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="{StaticResource }" />-->
+                                    </ComboBox.Resources>
+                                    <ComboBox.ItemContainerStyle>
+                                        <Style TargetType="ComboBoxItem">
+                                            <Setter Property="FontWeight" Value="Normal"/>
+                                            <Setter Property="FontSize" Value="12"/>
+                                        </Style>
+                                    </ComboBox.ItemContainerStyle>
+                                </ComboBox>
+                            </Border>
+                            <ScrollViewer Margin="0" Grid.Column="1" x:Name="PART_ContentHost" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

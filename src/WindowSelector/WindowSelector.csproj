@@ -138,6 +138,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Controls\CommandDescription.cs" />
+    <Compile Include="Controls\CommandMappingCollection.cs" />
+    <Compile Include="Controls\CommandTextBox.cs" />
     <Compile Include="Controls\HotkeyTextBox.cs" />
     <Compile Include="Converters\BoolToConnectionBrushConverter.cs" />
     <Compile Include="Converters\ByteArrayToImageSourceConverter.cs" />
@@ -167,6 +170,10 @@
     <Compile Include="Commands\BlackListItemCommand.cs" />
     <Compile Include="Commands\WhiteListItemCommand.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

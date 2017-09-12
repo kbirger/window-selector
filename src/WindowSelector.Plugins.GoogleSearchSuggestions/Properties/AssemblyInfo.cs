@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("WindowSelector.Plugins.GoogleSearchSuggestions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("NaviNet, Inc.")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WindowSelector.Plugins.GoogleSearchSuggestions")]
-[assembly: AssemblyCopyright("Copyright © NaviNet, Inc. 2017")]
+[assembly: AssemblyCopyright("Copyright © Kirill Birger, Inc. 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
